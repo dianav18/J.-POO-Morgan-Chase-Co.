@@ -3,9 +3,19 @@ package org.poo.main;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import org.poo.actions.AddAccount;
+import org.poo.actions.AddCards;
+import org.poo.actions.AddFunds;
+import org.poo.actions.DeleteAccount;
+import org.poo.handlers.CommandHandler;
+import org.poo.handlers.PrintUsers;
+import org.poo.handlers.UserMapper;
+import org.poo.bankInput.User;
 import org.poo.checker.Checker;
 import org.poo.checker.CheckerConstants;
+import org.poo.fileio.CommandInput;
 import org.poo.fileio.ObjectInput;
+import org.poo.utils.Utils;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,6 +24,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -33,26 +44,26 @@ public final class Main {
      * @throws IOException in case of exceptions to reading / writing
      */
     public static void main(final String[] args) throws IOException {
-        File directory = new File(CheckerConstants.TESTS_PATH);
-        Path path = Paths.get(CheckerConstants.RESULT_PATH);
+        final File directory = new File(CheckerConstants.TESTS_PATH);
+        final Path path = Paths.get(CheckerConstants.RESULT_PATH);
 
         if (Files.exists(path)) {
-            File resultFile = new File(String.valueOf(path));
-            for (File file : Objects.requireNonNull(resultFile.listFiles())) {
+            final File resultFile = new File(String.valueOf(path));
+            for (final File file : Objects.requireNonNull(resultFile.listFiles())) {
                 file.delete();
             }
             resultFile.delete();
         }
         Files.createDirectories(path);
 
-        var sortedFiles = Arrays.stream(Objects.requireNonNull(directory.listFiles())).
+        final var sortedFiles = Arrays.stream(Objects.requireNonNull(directory.listFiles())).
                 sorted(Comparator.comparingInt(Main::fileConsumer))
                 .toList();
 
-        for (File file : sortedFiles) {
-            String filepath = CheckerConstants.OUT_PATH + file.getName();
-            File out = new File(filepath);
-            boolean isCreated = out.createNewFile();
+        for (final File file : sortedFiles) {
+            final String filepath = CheckerConstants.OUT_PATH + file.getName();
+            final File out = new File(filepath);
+            final boolean isCreated = out.createNewFile();
             if (isCreated) {
                 action(file.getName(), filepath);
             }
@@ -68,11 +79,68 @@ public final class Main {
      */
     public static void action(final String filePath1,
                               final String filePath2) throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        File file = new File(CheckerConstants.TESTS_PATH + filePath1);
-        ObjectInput inputData = objectMapper.readValue(file, ObjectInput.class);
+        final ObjectMapper objectMapper = new ObjectMapper();
+        final File file = new File(CheckerConstants.TESTS_PATH + filePath1);
+        final ObjectInput inputData = objectMapper.readValue(file, ObjectInput.class);
 
-        ArrayNode output = objectMapper.createArrayNode();
+        final List<User> users = UserMapper.mapToUsers(inputData.getUsers());
+
+        final ArrayNode output = objectMapper.createArrayNode();
+
+        for (final CommandInput command : inputData.getCommands()) {
+            CommandHandler handler = null;
+
+            switch(command.getCommand()) {
+                case "printUsers" :
+                    handler = new PrintUsers(users, command.getTimestamp());
+                    break;
+                case "addAccount" :
+                   final AddAccount addAccount = new AddAccount(
+                           command.getEmail(),
+                           command.getCurrency(),
+                           command.getAccountType(),
+                           command.getInterestRate(),
+                           command.getTimestamp(),
+                           users);
+                    addAccount.execute(output);
+                    break;
+                case "addFunds" :
+                    handler = new AddFunds(
+                            command.getAccount(),
+                            command.getAmount(),
+                            command.getTimestamp(),
+                            users);
+                    break;
+                case "createCard" :
+                    handler = new AddCards(
+                            command.getAccount(),
+                            command.getEmail(),
+                            command.getCardNumber(),
+                            false,
+                            command.getTimestamp(),
+                            users);
+                    break;
+                case "createOneTimeCard" :
+                    handler = new AddCards(
+                            command.getAccount(),
+                            command.getEmail(),
+                            command.getCardNumber(),
+                            true,
+                            command.getTimestamp(),
+                            users);
+                    break;
+                case "deleteAccount" :
+                    handler = new DeleteAccount(
+                            command.getAccount(),
+                            command.getTimestamp(),
+                            command.getEmail(),
+                            users);
+                    break;
+            }
+            if (handler != null) {
+                handler.execute(output);
+            }
+        }
 
         /*
          * TODO Implement your function here
@@ -93,7 +161,7 @@ public final class Main {
          *
          */
 
-        ObjectWriter objectWriter = objectMapper.writerWithDefaultPrettyPrinter();
+        final ObjectWriter objectWriter = objectMapper.writerWithDefaultPrettyPrinter();
         objectWriter.writeValue(new File(filePath2), output);
     }
 
@@ -104,7 +172,7 @@ public final class Main {
      * @return the extracted numbers
      */
     public static int fileConsumer(final File file) {
-        String fileName = file.getName()
+        final String fileName = file.getName()
                 .replaceAll(CheckerConstants.DIGIT_REGEX, CheckerConstants.EMPTY_STR);
         return Integer.parseInt(fileName.substring(0, 2));
     }
