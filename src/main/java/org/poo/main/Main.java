@@ -3,13 +3,9 @@ package org.poo.main;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import org.poo.actions.AddAccount;
-import org.poo.actions.AddCards;
-import org.poo.actions.AddFunds;
-import org.poo.actions.DeleteAccount;
-import org.poo.handlers.CommandHandler;
-import org.poo.handlers.PrintUsers;
-import org.poo.handlers.UserMapper;
+import org.poo.actions.*;
+import org.poo.bankInput.ExchangeRate;
+import org.poo.handlers.*;
 import org.poo.bankInput.User;
 import org.poo.checker.Checker;
 import org.poo.checker.CheckerConstants;
@@ -88,6 +84,9 @@ public final class Main {
 
         final ArrayNode output = objectMapper.createArrayNode();
 
+        final List<ExchangeRate> exchangeRates = ExchangeRateMapper.mapToExchangeRates(inputData.getExchangeRates());
+        final CurrencyConverter currencyConverter = new CurrencyConverter(exchangeRates);
+
         for (final CommandInput command : inputData.getCommands()) {
             CommandHandler handler = null;
 
@@ -142,6 +141,23 @@ public final class Main {
                             command.getCardNumber(),
                             command.getTimestamp(),
                             users);
+                    break;
+                case "payOnline" :
+                    final PayOnlineCommand payOnline = new PayOnlineCommand(
+                            command.getCardNumber(),
+                            command.getAmount(),
+                            command.getCurrency(),
+                            command.getTimestamp(),
+                            command.getDescription(),
+                            command.getCommerciant(),
+                            command.getEmail(),
+                            users,
+                            currencyConverter
+                    );
+                    final CommandInvoker invoker = new CommandInvoker();
+                    invoker.addCommand(payOnline);
+
+                    invoker.executeCommands(output);
                     break;
             }
             if (handler != null) {

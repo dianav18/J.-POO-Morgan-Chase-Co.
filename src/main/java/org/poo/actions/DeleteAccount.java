@@ -29,16 +29,20 @@ public class DeleteAccount implements CommandHandler {
                 for (final Account account : user.getAccounts()) {
                     if (account.getIBAN().equals(accountIBAN) && account.getBalance() == 0) {
                         user.removeAccount(account);
-                        final ObjectNode commandOutput = output.addObject();
-                        commandOutput.put("command", "deleteAccount");
-                        commandOutput.put("timestamp", timestamp);
-                        final ObjectNode successDetails = commandOutput.putObject("output");
-                        successDetails.put("success", "Account deleted");
-                        successDetails.put("timestamp", timestamp);
+                        outputPrint(output);
                         return;
                     }
                 }
             }
         }
+    }
+
+    private void outputPrint(final ArrayNode output) {
+        final ObjectNode commandOutput = output.addObject();
+        commandOutput.put("command", "deleteAccount");
+        commandOutput.put("timestamp", timestamp);
+        final ObjectNode successDetails = commandOutput.putObject("output");
+        successDetails.put("success", "Account deleted");
+        successDetails.put("timestamp", timestamp);
     }
 }
