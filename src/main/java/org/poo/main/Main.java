@@ -79,6 +79,7 @@ public final class Main {
      */
     public static void action(final String filePath1,
                               final String filePath2) throws IOException {
+        Utils.resetRandom();
         final ObjectMapper objectMapper = new ObjectMapper();
         final File file = new File(CheckerConstants.TESTS_PATH + filePath1);
         final ObjectInput inputData = objectMapper.readValue(file, ObjectInput.class);
@@ -134,6 +135,12 @@ public final class Main {
                             command.getAccount(),
                             command.getTimestamp(),
                             command.getEmail(),
+                            users);
+                    break;
+                case "deleteCard" :
+                    handler = new org.poo.actions.DeleteCard(
+                            command.getCardNumber(),
+                            command.getTimestamp(),
                             users);
                     break;
             }

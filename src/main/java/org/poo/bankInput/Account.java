@@ -27,4 +27,8 @@ public class Account {
     public void addCard(final Card card) {
         this.cards.add(card);
     }
+
+    public void removeCard(final Card card) {
+        this.cards.remove(card);
+    }
 }

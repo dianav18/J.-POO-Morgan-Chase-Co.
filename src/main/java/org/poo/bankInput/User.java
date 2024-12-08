@@ -25,4 +25,8 @@ public class User {
         this.accounts.add(account);
     }
 
+    public void removeAccount(final Account account) {
+        this.accounts.remove(account);
+    }
+
 }
