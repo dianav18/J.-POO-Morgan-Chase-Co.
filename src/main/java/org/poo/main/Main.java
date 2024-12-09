@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import org.poo.actions.*;
+import org.poo.bankInput.Account;
 import org.poo.bankInput.ExchangeRate;
 import org.poo.handlers.*;
 import org.poo.bankInput.User;
@@ -80,12 +81,16 @@ public final class Main {
         final File file = new File(CheckerConstants.TESTS_PATH + filePath1);
         final ObjectInput inputData = objectMapper.readValue(file, ObjectInput.class);
 
+        final CommandInvoker invoker = new CommandInvoker();
+
         final List<User> users = UserMapper.mapToUsers(inputData.getUsers());
 
         final ArrayNode output = objectMapper.createArrayNode();
 
         final List<ExchangeRate> exchangeRates = ExchangeRateMapper.mapToExchangeRates(inputData.getExchangeRates());
         final CurrencyConverter currencyConverter = new CurrencyConverter(exchangeRates);
+
+        final List<Account> accounts = AccountExtractor.extractAccountsFromUsers(users);
 
         for (final CommandInput command : inputData.getCommands()) {
             CommandHandler handler = null;
@@ -154,8 +159,24 @@ public final class Main {
                             users,
                             currencyConverter
                     );
-                    final CommandInvoker invoker = new CommandInvoker();
                     invoker.addCommand(payOnline);
+
+                    invoker.executeCommands(output);
+                    break;
+
+                case "sendMoney" :
+                    final SendMoneyCommand sendMoney = new SendMoneyCommand(
+                            command.getAccount(),
+                            command.getAmount(),
+                            command.getReceiver(),
+                            command.getTimestamp(),
+                            command.getDescription(),
+                            accounts,
+                            currencyConverter,
+                            users
+                    );
+
+                    invoker.addCommand(sendMoney);
 
                     invoker.executeCommands(output);
                     break;
