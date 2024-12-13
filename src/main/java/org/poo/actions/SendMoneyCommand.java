@@ -1,8 +1,11 @@
 package org.poo.actions;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.poo.bankInput.Account;
 import org.poo.bankInput.User;
+import org.poo.bankInput.transactions.InsufficientFundsTransaction;
+import org.poo.bankInput.transactions.SentTransaction;
 import org.poo.handlers.CommandHandler;
 import org.poo.handlers.CurrencyConverter;
 
@@ -37,10 +40,13 @@ public class SendMoneyCommand implements CommandHandler {
         Account senderAccount = null;
         Account receiverAccount = null;
 
+        User senderUser = null;
+
         for (final User user : users) {
             for (final Account account : user.getAccounts()) {
                 if (account.getIBAN().equals(senderIBAN)) {
                     senderAccount = account;
+                    senderUser = user;
                 }
                 if (account.getIBAN().equals(receiverIBAN)) {
                     receiverAccount = account;
@@ -53,6 +59,7 @@ public class SendMoneyCommand implements CommandHandler {
         }
 
         if (senderAccount.getBalance() < amount) {
+            senderUser.addTransaction(new InsufficientFundsTransaction(timestamp, "insufficient funds"));
             return;
         }
 
@@ -66,6 +73,8 @@ public class SendMoneyCommand implements CommandHandler {
 
         senderAccount.setBalance(senderAccount.getBalance() - amount);
         receiverAccount.setBalance(receiverAccount.getBalance() + convertedAmount);
+
+        senderUser.addTransaction(new SentTransaction(timestamp, description, senderIBAN, receiverIBAN, amount, senderAccount.getCurrency()));
 
     }
 }

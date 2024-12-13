@@ -15,6 +15,8 @@ public class Account {
     private String type;
     private double balance;
     private List<Card> cards;
+    private String alias;
+    private double minBalance;
 
     public Account(final String IBAN, final String currency, final String type) {
         this.IBAN = IBAN;

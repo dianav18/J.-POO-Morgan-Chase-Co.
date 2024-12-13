@@ -5,9 +5,13 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.poo.bankInput.Account;
 import org.poo.bankInput.Card;
 import org.poo.bankInput.User;
+import org.poo.bankInput.transactions.CardDestroyedTransaction;
+import org.poo.bankInput.transactions.CardPayment;
+import org.poo.bankInput.transactions.InsufficientFundsTransaction;
 import org.poo.handlers.CommandHandler;
 import org.poo.handlers.CurrencyConverter;
 
+import java.sql.SQLOutput;
 import java.util.List;
 
 public class PayOnlineCommand implements CommandHandler {
@@ -42,14 +46,27 @@ public class PayOnlineCommand implements CommandHandler {
                 for (final Account account : user.getAccounts()) {
                     for (final Card card : account.getCards()) {
                         if (card.getCardNumber().equals(cardNumber)) {
+                            if (card.getStatus().equals("destroyed")) {
+                                System.out.println("Card has been destroyed");
+                                user.addTransaction(new CardDestroyedTransaction(timestamp, "The card has been destroyed", account.getIBAN(), card.getCardNumber(), email));
+                                return;
+                            }
+
                             cardFound = true;
                             double finalAmount = amount;
 
                             if (!currency.equals(account.getCurrency())) {
                                 finalAmount = currencyConverter.convert(amount, currency, account.getCurrency());
                             }
+
+                            if (account.getBalance() < finalAmount) {
+                                user.addTransaction(new InsufficientFundsTransaction(timestamp, "Insufficient funds"));
+                                return;
+                            }
+
                             if (account.getBalance() >= finalAmount) {
                                 account.setBalance(account.getBalance() - finalAmount);
+                                user.addTransaction(new CardPayment(timestamp, description, finalAmount, commerciant, timestamp));
                                 return;
                             }
                         }
@@ -62,7 +79,6 @@ public class PayOnlineCommand implements CommandHandler {
             }
         }
     }
-
 
     private void cardNotFoundOutput(final ArrayNode output) {
         final ObjectNode commandOutput = output.addObject();

@@ -11,6 +11,8 @@ import org.poo.utils.Utils;
 import java.util.List;
 import java.util.UUID;
 
+import org.poo.bankInput.transactions.CardCreatedTransaction;
+
 public class AddCards implements CommandHandler {
     private final String accountIBAN;
     private final String email;
@@ -38,6 +40,7 @@ public class AddCards implements CommandHandler {
                     if (account.getIBAN().equals(accountIBAN)) {
                         final Card newCard = new Card(cardNumber, isOneTime);
                         account.addCard(newCard);
+                        user.addTransaction(new CardCreatedTransaction(timestamp, account.getIBAN(), cardNumber, user.getEmail()));
                     }
                 }
             }

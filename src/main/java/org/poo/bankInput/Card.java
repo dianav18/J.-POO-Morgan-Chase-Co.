@@ -24,4 +24,16 @@ public class Card {
         return false;
     }
 
+    public void destroy() {
+        this.status = "destroyed";
+    }
+
+    public void freeze() {
+        this.status = "frozen";
+    }
+
+    public void warning() {
+        this.status = "warning";
+    }
+
 }

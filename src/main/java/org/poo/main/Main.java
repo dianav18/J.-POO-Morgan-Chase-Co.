@@ -96,6 +96,15 @@ public final class Main {
             CommandHandler handler = null;
 
             switch(command.getCommand()) {
+                case "printTransactions":
+                    final PrintTransactionsCommand printTransactionsCommand = new PrintTransactionsCommand(
+                            command.getEmail(),
+                            command.getTimestamp(),
+                            users
+                    );
+                    invoker.addCommand(printTransactionsCommand);
+                    invoker.executeCommands(output);
+                    break;
                 case "printUsers" :
                     handler = new PrintUsers(users, command.getTimestamp());
                     break;
@@ -134,6 +143,7 @@ public final class Main {
                             command.getTimestamp(),
                             users);
                     break;
+
                 case "deleteAccount" :
                     handler = new DeleteAccount(
                             command.getAccount(),
@@ -160,7 +170,16 @@ public final class Main {
                             currencyConverter
                     );
                     invoker.addCommand(payOnline);
-
+                    invoker.executeCommands(output);
+                    break;
+                case "setMinBalance" :
+                    final SetMinBalanceCommand setMinBalance = new SetMinBalanceCommand(
+                            command.getAmount(),
+                            command.getAccount(),
+                            command.getTimestamp(),
+                            users
+                    );
+                    invoker.addCommand(setMinBalance);
                     invoker.executeCommands(output);
                     break;
 
@@ -180,30 +199,31 @@ public final class Main {
 
                     invoker.executeCommands(output);
                     break;
+                case "setAlias" :
+                    final SetAliasCommand setAlias = new SetAliasCommand(
+                            command.getEmail(),
+                            command.getAlias(),
+                            command.getAccount(),
+                            users);
+                    invoker.addCommand(setAlias);
+
+                    invoker.executeCommands(output);
+                    break;
+                case "checkCardStatus" :
+                    final CheckCardStatusCommand checkCardStatus = new CheckCardStatusCommand(
+                            command.getCardNumber(),
+                            command.getTimestamp(),
+                            users
+                    );
+                    invoker.addCommand(checkCardStatus);
+                    invoker.executeCommands(output);
+                    break;
+
             }
             if (handler != null) {
                 handler.execute(output);
             }
         }
-
-        /*
-         * TODO Implement your function here
-         *
-         * How to add output to the output array?
-         * There are multiple ways to do this, here is one example:
-         *
-         * ObjectMapper mapper = new ObjectMapper();
-         *
-         * ObjectNode objectNode = mapper.createObjectNode();
-         * objectNode.put("field_name", "field_value");
-         *
-         * ArrayNode arrayNode = mapper.createArrayNode();
-         * arrayNode.add(objectNode);
-         *
-         * output.add(arrayNode);
-         * output.add(objectNode);
-         *
-         */
 
         final ObjectWriter objectWriter = objectMapper.writerWithDefaultPrettyPrinter();
         objectWriter.writeValue(new File(filePath2), output);

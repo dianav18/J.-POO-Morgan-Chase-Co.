@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.poo.bankInput.*;
+import org.poo.bankInput.transactions.AccountCreatedTransaction;
 import org.poo.handlers.CommandHandler;
 import org.poo.utils.Utils;
 
@@ -45,10 +46,11 @@ public class AddAccount implements CommandHandler {
                 }
 
                 user.addAccount(newAccount);
-
+                user.addTransaction(new AccountCreatedTransaction(timestamp));
                 return;
             }
         }
+
     }
 
 }

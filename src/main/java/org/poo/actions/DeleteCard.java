@@ -2,6 +2,7 @@ package org.poo.actions;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import org.poo.bankInput.User;
+import org.poo.bankInput.transactions.CardDestroyedTransaction;
 import org.poo.handlers.CommandHandler;
 
 import java.util.List;
@@ -24,6 +25,14 @@ public class DeleteCard implements CommandHandler {
             for (final var account : user.getAccounts()) {
                 for (final var card : account.getCards()) {
                     if (card.getCardNumber().equals(cardNumber)) {
+                        user.addTransaction(new CardDestroyedTransaction(
+                                timestamp,
+                                "The card has been destroyed",
+                                account.getIBAN(),
+                                card.getCardNumber(),
+                                user.getEmail()
+                        ));
+                        card.destroy();
                         account.removeCard(card);
                         return;
                     }
