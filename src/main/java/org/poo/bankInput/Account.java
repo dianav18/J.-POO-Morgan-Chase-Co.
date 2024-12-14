@@ -24,6 +24,7 @@ public class Account {
         this.type = type;
         this.balance = 0;
         this.cards = new ArrayList<>();
+        this.minBalance = 0;
     }
 
     public void addCard(final Card card) {

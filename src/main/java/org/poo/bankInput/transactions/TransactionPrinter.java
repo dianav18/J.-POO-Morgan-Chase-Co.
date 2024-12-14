@@ -70,4 +70,11 @@ public class TransactionPrinter implements TransactionVisitor {
         node.put("description", "The card is frozen");
         node.put("timestamp", cardFrozenTransaction.getTimestamp());
     }
+
+    @Override
+    public void visit(final AccountWarningTransaction accountWaringTransaction) {
+        final ObjectNode node = output.addObject();
+        node.put("description", "You have reached the minimum amount of funds, the card will be frozen");
+        node.put("timestamp", accountWaringTransaction.getTimestamp());
+    }
 }

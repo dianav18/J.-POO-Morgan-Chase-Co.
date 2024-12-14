@@ -1,7 +1,8 @@
 package org.poo.bankInput.transactions;
 
-public class CardFrozenTransaction extends Transaction {
-    public CardFrozenTransaction(final int timestamp, final String description) {
+public class AccountWarningTransaction extends Transaction {
+
+    public AccountWarningTransaction(final int timestamp, final String description) {
         super(timestamp, description);
     }
 

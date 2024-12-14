@@ -3,7 +3,10 @@ package org.poo.actions;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.poo.bankInput.Account;
+import org.poo.bankInput.Card;
 import org.poo.bankInput.User;
+import org.poo.bankInput.transactions.AccountWarningTransaction;
+import org.poo.bankInput.transactions.CardFrozenTransaction;
 import org.poo.bankInput.transactions.InsufficientFundsTransaction;
 import org.poo.bankInput.transactions.SentTransaction;
 import org.poo.handlers.CommandHandler;
@@ -59,7 +62,11 @@ public class SendMoneyCommand implements CommandHandler {
         }
 
         if (senderAccount.getBalance() < amount) {
-            senderUser.addTransaction(new InsufficientFundsTransaction(timestamp, "insufficient funds"));
+            senderUser.addTransaction(new InsufficientFundsTransaction(timestamp, "Insufficient funds"));
+            return;
+        }
+
+        if (senderAccount.getBalance() <= senderAccount.getMinBalance()) {
             return;
         }
 

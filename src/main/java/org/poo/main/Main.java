@@ -172,17 +172,6 @@ public final class Main {
                     invoker.addCommand(payOnline);
                     invoker.executeCommands(output);
                     break;
-                case "setMinBalance" :
-                    final SetMinBalanceCommand setMinBalance = new SetMinBalanceCommand(
-                            command.getAmount(),
-                            command.getAccount(),
-                            command.getTimestamp(),
-                            users
-                    );
-                    invoker.addCommand(setMinBalance);
-                    invoker.executeCommands(output);
-                    break;
-
                 case "sendMoney" :
                     final SendMoneyCommand sendMoney = new SendMoneyCommand(
                             command.getAccount(),
@@ -207,6 +196,16 @@ public final class Main {
                             users);
                     invoker.addCommand(setAlias);
 
+                    invoker.executeCommands(output);
+                    break;
+                case "setMinBalance" :
+                    final SetMinBalanceCommand setMinBalance = new SetMinBalanceCommand(
+                            command.getAmount(),
+                            command.getAccount(),
+                            command.getTimestamp(),
+                            users
+                    );
+                    invoker.addCommand(setMinBalance);
                     invoker.executeCommands(output);
                     break;
                 case "checkCardStatus" :

@@ -5,9 +5,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.poo.bankInput.Account;
 import org.poo.bankInput.Card;
 import org.poo.bankInput.User;
-import org.poo.bankInput.transactions.CardDestroyedTransaction;
-import org.poo.bankInput.transactions.CardPayment;
-import org.poo.bankInput.transactions.InsufficientFundsTransaction;
+import org.poo.bankInput.transactions.*;
 import org.poo.handlers.CommandHandler;
 import org.poo.handlers.CurrencyConverter;
 
@@ -46,9 +44,16 @@ public class PayOnlineCommand implements CommandHandler {
                 for (final Account account : user.getAccounts()) {
                     for (final Card card : account.getCards()) {
                         if (card.getCardNumber().equals(cardNumber)) {
-                            if (card.getStatus().equals("destroyed")) {
-                                System.out.println("Card has been destroyed");
-                                user.addTransaction(new CardDestroyedTransaction(timestamp, "The card has been destroyed", account.getIBAN(), card.getCardNumber(), email));
+                            //System.out.println("here");
+//                            if (card.getStatus().equals("warning")) {
+//                                //System.out.println("warning");
+//                                user.addTransaction(new AccountWarningTransaction(timestamp, "You have reached the minimum amount of funds"));
+//                                return;
+//                            }
+
+                            if (card.getStatus().equals("frozen")) {
+                               // System.out.println("frozen");
+                                user.addTransaction(new CardFrozenTransaction(timestamp, "The card is frozen"));
                                 return;
                             }
 

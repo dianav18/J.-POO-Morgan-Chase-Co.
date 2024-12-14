@@ -8,4 +8,5 @@ public interface TransactionVisitor {
     void visit(InsufficientFundsTransaction transaction);
     void visit(CardDestroyedTransaction cardDestroyedTransaction);
     void visit(CardFrozenTransaction cardFrozenTransaction);
+    void visit(AccountWarningTransaction accountWaringTransaction);
 }
