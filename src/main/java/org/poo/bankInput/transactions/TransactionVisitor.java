@@ -9,4 +9,5 @@ public interface TransactionVisitor {
     void visit(CardDestroyedTransaction cardDestroyedTransaction);
     void visit(CardFrozenTransaction cardFrozenTransaction);
     void visit(AccountWarningTransaction accountWaringTransaction);
+    void visit(SplitPaymentTransaction splitPaymentTransaction);
 }

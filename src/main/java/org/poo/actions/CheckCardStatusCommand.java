@@ -30,9 +30,6 @@ public class CheckCardStatusCommand implements CommandHandler {
             for (final Account account : user.getAccounts()) {
                 for (final Card card : account.getCards()) {
                     if (card.getCardNumber().equals(cardNumber)) {
-                        System.out.println("Balance: " + account.getBalance());
-                        System.out.println("Min Balance: " + account.getMinBalance());
-                        System.out.println("Status: " + card.getStatus());
                         cardFound = true;
                         if (account.getBalance() <= account.getMinBalance()) {
                             card.freeze();

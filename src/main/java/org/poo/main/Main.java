@@ -217,6 +217,29 @@ public final class Main {
                     invoker.addCommand(checkCardStatus);
                     invoker.executeCommands(output);
                     break;
+                case "splitPayment" :
+                    final SplitPaymentCommand splitPayment = new SplitPaymentCommand(
+                            command.getAccounts(),
+                            command.getTimestamp(),
+                            command.getCurrency(),
+                            command.getAmount(),
+                            users,
+                            currencyConverter
+                    );
+                    invoker.addCommand(splitPayment);
+                    invoker.executeCommands(output);
+                    break;
+                case "report" :
+                    final ReportPrint reportPrint = new ReportPrint(
+                            command.getStartTimestamp(),
+                            command.getEndTimestamp(),
+                            command.getAccount(),
+                            command.getTimestamp(),
+                            users
+                    );
+                    invoker.addCommand(reportPrint);
+                    invoker.executeCommands(output);
+                    break;
 
             }
             if (handler != null) {

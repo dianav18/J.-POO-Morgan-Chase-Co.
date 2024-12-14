@@ -77,4 +77,23 @@ public class TransactionPrinter implements TransactionVisitor {
         node.put("description", "You have reached the minimum amount of funds, the card will be frozen");
         node.put("timestamp", accountWaringTransaction.getTimestamp());
     }
+
+    @Override
+    public void visit(final SplitPaymentTransaction splitPaymentTransaction) {
+        final ObjectNode node = output.addObject();
+
+        node.put("description", String.format("Split payment of %.2f %s",
+                splitPaymentTransaction.getTotalAmount(), splitPaymentTransaction.getCurrency()));
+        node.put("currency", splitPaymentTransaction.getCurrency());
+
+        final ArrayNode involvedAccountsNode = node.putArray("involvedAccounts");
+        for (final String account : splitPaymentTransaction.getInvolvedAccounts()) {
+            involvedAccountsNode.add(account);
+        }
+
+        //node.put("amount", Double.parseDouble(String.format("%.2f", splitPaymentTransaction.getAmountPerAccount())));
+        node.put("amount", splitPaymentTransaction.getAmountPerAccount());
+        node.put("timestamp", splitPaymentTransaction.getTimestamp());
+    }
+
 }

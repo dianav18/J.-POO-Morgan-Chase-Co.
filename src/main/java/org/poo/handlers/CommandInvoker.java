@@ -17,6 +17,6 @@ public class CommandInvoker {
         for (final CommandHandler command : commands) {
             command.execute(output);
         }
-        commands.clear(); // Opțional: Golește lista după execuție
+        commands.clear();
     }
 }
