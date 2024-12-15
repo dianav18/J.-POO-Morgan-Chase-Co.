@@ -11,4 +11,5 @@ public interface TransactionVisitor {
     void visit(AccountWarningTransaction accountWaringTransaction);
     void visit(SplitPaymentTransaction splitPaymentTransaction);
     void visit(CommerciantTransaction commerciantTransaction);
+    void visit(ReceivedTransaction receivedTransaction);
 }

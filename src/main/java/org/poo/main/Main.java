@@ -256,6 +256,26 @@ public final class Main {
                     invoker.addCommand(spendingReportPrintCommand);
                     invoker.executeCommands(output);
                     break;
+                case "addInterest" :
+                    final AddInterestCommand addInterestCommand = new AddInterestCommand(
+                            command.getTimestamp(),
+                            command.getAccount(),
+                            command.getInterestRate(),
+                            users
+                    );
+                    invoker.addCommand(addInterestCommand);
+                    invoker.executeCommands(output);
+                    break;
+                case "changeInterestRate" :
+                    final ChangeInterestRateCommand changeInterestRateCommand = new ChangeInterestRateCommand(
+                            command.getAccount(),
+                            command.getInterestRate(),
+                            command.getTimestamp(),
+                            users
+                    );
+                    invoker.addCommand(changeInterestRateCommand);
+                    invoker.executeCommands(output);
+                    break;
             }
             if (handler != null) {
                 handler.execute(output);

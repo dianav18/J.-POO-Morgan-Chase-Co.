@@ -58,6 +58,12 @@ public class SpendingReportPrintCommand implements CommandHandler {
         }
 
         if (!accountFound) {
+            final ObjectNode outputNode = output.addObject();
+            outputNode.put("command", "spendingsReport");
+            outputNode.put("timestamp", timestamp);
+            final ObjectNode reportNode = outputNode.putObject("output");
+            reportNode.put("description", "Account not found");
+            reportNode.put("timestamp", timestamp);
             return;
         }
 

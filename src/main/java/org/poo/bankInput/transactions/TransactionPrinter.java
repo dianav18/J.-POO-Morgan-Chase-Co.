@@ -91,7 +91,6 @@ public class TransactionPrinter implements TransactionVisitor {
             involvedAccountsNode.add(account);
         }
 
-        //node.put("amount", Double.parseDouble(String.format("%.2f", splitPaymentTransaction.getAmountPerAccount())));
         node.put("amount", splitPaymentTransaction.getAmountPerAccount());
         node.put("timestamp", splitPaymentTransaction.getTimestamp());
     }
@@ -103,6 +102,17 @@ public class TransactionPrinter implements TransactionVisitor {
         node.put("commerciant", commerciantTransaction.getCommerciant());
         node.put("description", "Card payment");
         node.put("timestamp", commerciantTransaction.getTimestamp());
+    }
+
+    @Override
+    public void visit(final ReceivedTransaction receivedTransaction) {
+            final ObjectNode node = output.addObject();
+            node.put("description", receivedTransaction.getDescription());
+            node.put("amount", receivedTransaction.getAmount() + " " + receivedTransaction.getCurrency());
+            node.put("senderIBAN", receivedTransaction.getSenderIBAN());
+            node.put("receiverIBAN", receivedTransaction.getReceiverIBAN());
+            node.put("timestamp", receivedTransaction.getTimestamp());
+            node.put("transferType", "received");
     }
 
 }
