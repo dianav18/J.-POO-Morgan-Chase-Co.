@@ -96,4 +96,13 @@ public class TransactionPrinter implements TransactionVisitor {
         node.put("timestamp", splitPaymentTransaction.getTimestamp());
     }
 
+    @Override
+    public void visit(final CommerciantTransaction commerciantTransaction) {
+        final ObjectNode node = output.addObject();
+        node.put("amount", commerciantTransaction.getAmount());
+        node.put("commerciant", commerciantTransaction.getCommerciant());
+        node.put("description", "Card payment");
+        node.put("timestamp", commerciantTransaction.getTimestamp());
+    }
+
 }

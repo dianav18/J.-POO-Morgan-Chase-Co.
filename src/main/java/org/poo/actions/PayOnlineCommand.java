@@ -4,10 +4,12 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.poo.bankInput.Account;
 import org.poo.bankInput.Card;
+import org.poo.bankInput.Commerciant;
 import org.poo.bankInput.User;
 import org.poo.bankInput.transactions.*;
 import org.poo.handlers.CommandHandler;
 import org.poo.handlers.CurrencyConverter;
+import org.poo.utils.Utils;
 
 import java.sql.SQLOutput;
 import java.util.List;
@@ -71,7 +73,28 @@ public class PayOnlineCommand implements CommandHandler {
 
                             if (account.getBalance() >= finalAmount) {
                                 account.setBalance(account.getBalance() - finalAmount);
+                                boolean found = false;
+                                for (final Commerciant userCommerciant : account.getCommerciants()) {
+                                    if (userCommerciant.getName().equalsIgnoreCase(commerciant)) {
+                                        userCommerciant.addSpentAmount(finalAmount);
+                                        found = true;
+                                        break;
+                                    }
+                                }
+
+                                if (!found) {
+                                    final Commerciant newCommerciant = new Commerciant(commerciant);
+                                    newCommerciant.addSpentAmount(finalAmount);
+                                    account.addCommerciant(newCommerciant);
+                                    account.addTransaction(new CommerciantTransaction(newCommerciant.getName(), finalAmount, timestamp));
+                                }
                                 user.addTransaction(new CardPayment(timestamp, description, finalAmount, commerciant, timestamp));
+                                if (card.isOneTime()) {
+                                    account.removeCard(card);
+                                    final Card newCard = new Card(Utils.generateCardNumber(), true);
+                                    account.addCard(newCard);
+                                    user.addTransaction(new CardCreatedTransaction(timestamp, account.getIBAN(), newCard.getCardNumber(), user.getEmail()));
+                                }
                                 return;
                             }
                         }

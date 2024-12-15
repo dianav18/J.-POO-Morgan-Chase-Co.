@@ -15,14 +15,16 @@ public class User {
     private String email;
     private List<Account> accounts;
     private List<Transaction> transactions;
+  //  private List<Commerciant> commerciants;
 
 
     public User(final String firstName, final String lastName, final String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.accounts = new ArrayList<>();
-        this.transactions = new ArrayList<>();
+        accounts = new ArrayList<>();
+        transactions = new ArrayList<>();
+    //    commerciants = new ArrayList<>();
     }
 
     public void addAccount(final Account account) {
@@ -36,5 +38,9 @@ public class User {
     public void addTransaction(final Transaction transaction) {
         this.transactions.add(transaction);
     }
+
+//    public void addCommerciant(final Commerciant commerciant) {
+//        this.commerciants.add(commerciant);
+//    }
 
 }

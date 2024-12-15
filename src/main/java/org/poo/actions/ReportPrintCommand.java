@@ -12,7 +12,7 @@ import org.poo.handlers.CommandHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReportPrint implements CommandHandler {
+public class ReportPrintCommand implements CommandHandler {
     private final int startTimestamp;
     private final int endTimestamp;
     private final String accountIBAN;
@@ -20,7 +20,7 @@ public class ReportPrint implements CommandHandler {
     private List<Transaction> transactions;
     private final List<User> users;
 
-    public ReportPrint(final int startTimestamp, final int endTimestamp, final String accountIBAN, final int timestamp, final List<User> users) {
+    public ReportPrintCommand(final int startTimestamp, final int endTimestamp, final String accountIBAN, final int timestamp, final List<User> users) {
         this.startTimestamp = startTimestamp;
         this.endTimestamp = endTimestamp;
         this.accountIBAN = accountIBAN;
@@ -51,6 +51,12 @@ public class ReportPrint implements CommandHandler {
         }
 
         if (!accountFound) {
+            final ObjectNode outputNode = output.addObject();
+            outputNode.put("command", "report");
+            outputNode.put("timestamp", timestamp);
+            final ObjectNode reportNode = outputNode.putObject("output");
+            reportNode.put("description", "Account not found");
+            reportNode.put("timestamp", timestamp);
             return;
         }
 

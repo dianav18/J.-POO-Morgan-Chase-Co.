@@ -5,7 +5,9 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import org.poo.actions.*;
 import org.poo.bankInput.Account;
+//import org.poo.bankInput.Commerciants;
 import org.poo.bankInput.ExchangeRate;
+import org.poo.fileio.CommerciantInput;
 import org.poo.handlers.*;
 import org.poo.bankInput.User;
 import org.poo.checker.Checker;
@@ -91,6 +93,9 @@ public final class Main {
         final CurrencyConverter currencyConverter = new CurrencyConverter(exchangeRates);
 
         final List<Account> accounts = AccountExtractor.extractAccountsFromUsers(users);
+
+        //final List<Commerciants> commerciantsList = Commerciants.fromInputList(CommerciantInput.getCommerciants());
+
 
         for (final CommandInput command : inputData.getCommands()) {
             CommandHandler handler = null;
@@ -230,17 +235,27 @@ public final class Main {
                     invoker.executeCommands(output);
                     break;
                 case "report" :
-                    final ReportPrint reportPrint = new ReportPrint(
+                    final ReportPrintCommand reportPrintCommand = new ReportPrintCommand(
                             command.getStartTimestamp(),
                             command.getEndTimestamp(),
                             command.getAccount(),
                             command.getTimestamp(),
                             users
                     );
-                    invoker.addCommand(reportPrint);
+                    invoker.addCommand(reportPrintCommand);
                     invoker.executeCommands(output);
                     break;
-
+                case "spendingsReport" :
+                    final SpendingReportPrintCommand spendingReportPrintCommand = new SpendingReportPrintCommand(
+                            command.getStartTimestamp(),
+                            command.getEndTimestamp(),
+                            command.getAccount(),
+                            command.getTimestamp(),
+                            users
+                    );
+                    invoker.addCommand(spendingReportPrintCommand);
+                    invoker.executeCommands(output);
+                    break;
             }
             if (handler != null) {
                 handler.execute(output);
