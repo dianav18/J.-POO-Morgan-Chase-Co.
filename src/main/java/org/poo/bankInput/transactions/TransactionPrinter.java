@@ -87,7 +87,7 @@ public class TransactionPrinter implements TransactionVisitor {
         node.put("currency", splitPaymentTransaction.getCurrency());
 
         if (splitPaymentTransaction.isShowError()) {
-            System.out.println("here");
+           // System.out.println("here");
             node.put("error", "Account " + splitPaymentTransaction.getProblematicAccountIBAN() + " has insufficient funds for a split payment.");
         }
 
@@ -125,6 +125,13 @@ public class TransactionPrinter implements TransactionVisitor {
         final ObjectNode node = output.addObject();
         node.put("description", "Account couldn't be deleted - there are funds remaining");
         node.put("timestamp", cannotDeleteAccountTransaction.getTimestamp());
+    }
+
+    @Override
+    public void visit(final ChangeInterestRateTransaction changeInterestRateTransaction) {
+        final ObjectNode node = output.addObject();
+        node.put("description", changeInterestRateTransaction.getDescription());
+        node.put("timestamp", changeInterestRateTransaction.getTimestamp());
     }
 
 }

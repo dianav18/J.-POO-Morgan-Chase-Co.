@@ -134,7 +134,7 @@ public final class Main {
                     handler = new AddCards(
                             command.getAccount(),
                             command.getEmail(),
-                            command.getCardNumber(),
+                            //command.getCardNumber(),
                             false,
                             command.getTimestamp(),
                             users);
@@ -143,7 +143,7 @@ public final class Main {
                     handler = new AddCards(
                             command.getAccount(),
                             command.getEmail(),
-                            command.getCardNumber(),
+                            //command.getCardNumber(),
                             true,
                             command.getTimestamp(),
                             users);

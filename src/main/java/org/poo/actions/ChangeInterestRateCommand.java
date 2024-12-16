@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.poo.bankInput.SavingsAccount;
 import org.poo.bankInput.User;
+import org.poo.bankInput.transactions.ChangeInterestRateTransaction;
 import org.poo.handlers.CommandHandler;
 
 import java.util.List;
@@ -31,6 +32,7 @@ public class ChangeInterestRateCommand implements CommandHandler {
                     if (account.getType().equals("savings")) {
                         accountIsSavinAccount = true;
                         final SavingsAccount savingsAccount = (SavingsAccount) account;
+                        user.addTransaction(new ChangeInterestRateTransaction(timestamp, newInterestRate, "Interest rate of the account changed to " + newInterestRate));
                         savingsAccount.addInterest(newInterestRate);
                         return;
                     }

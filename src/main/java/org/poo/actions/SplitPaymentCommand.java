@@ -47,7 +47,7 @@ public class SplitPaymentCommand implements CommandHandler {
                         if (account.getBalance() < amountInAccountCurrency) {
                             //System.out.println("Insufficient funds");
                             //user.addTransaction(new SplitPaymentTransaction(timestamp, currency, accountsForSplit, amountPerAccount, amount, true, accountIBAN));
-                            System.out.println("Insufficient funds");
+                            //System.out.println("Insufficient funds");
                             problematicAccountIBAN = accountIBAN;
                             hasError = true;
                         }

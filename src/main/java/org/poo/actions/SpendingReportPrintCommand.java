@@ -49,6 +49,14 @@ public class SpendingReportPrintCommand implements CommandHandler {
                     transactions = user.getTransactions();
                     commerciants = account.getCommerciants();
                     accountFound = true;
+                    if (account.getType().equals("savings")) {
+                        final ObjectNode outputNode = output.addObject();
+                        outputNode.put("command", "spendingsReport");
+                        final ObjectNode reportNode = outputNode.putObject("output");
+                        reportNode.put("error", "This kind of report is not supported for a saving account");
+                        outputNode.put("timestamp", timestamp);
+                        return;
+                    }
                     break;
                 }
             }

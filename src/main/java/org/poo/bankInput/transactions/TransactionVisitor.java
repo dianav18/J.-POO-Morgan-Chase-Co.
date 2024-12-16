@@ -13,4 +13,5 @@ public interface TransactionVisitor {
     void visit(CommerciantTransaction commerciantTransaction);
     void visit(ReceivedTransaction receivedTransaction);
     void visit(CannotDeleteAccountTransaction cannotDeleteAccountTransaction);
+    void visit(ChangeInterestRateTransaction changeInterestRateTransaction);
 }
