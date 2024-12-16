@@ -11,12 +11,17 @@ public class SplitPaymentTransaction extends Transaction{
     private final double amountPerAccount;
     private final double totalAmount;
 
-    public SplitPaymentTransaction(final int timestamp, final String currency, final List<String> involvedAccounts, final double amount, final double totalAmount) {
+    private final boolean showError;
+    private final String problematicAccountIBAN;
+
+    public SplitPaymentTransaction(final int timestamp, final String currency, final List<String> involvedAccounts, final double amount, final double totalAmount, final boolean showError, final String problematicAccountIBAN) {
         super(timestamp, "Split payment");
         this.currency = currency;
         this.involvedAccounts = involvedAccounts;
         this.amountPerAccount = amount;
         this.totalAmount = totalAmount;
+        this.showError = showError;
+        this.problematicAccountIBAN = problematicAccountIBAN;
     }
 
     @Override

@@ -12,4 +12,5 @@ public interface TransactionVisitor {
     void visit(SplitPaymentTransaction splitPaymentTransaction);
     void visit(CommerciantTransaction commerciantTransaction);
     void visit(ReceivedTransaction receivedTransaction);
+    void visit(CannotDeleteAccountTransaction cannotDeleteAccountTransaction);
 }

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.poo.bankInput.Account;
 import org.poo.bankInput.Card;
 import org.poo.bankInput.User;
+import org.poo.bankInput.transactions.CannotDeleteAccountTransaction;
 import org.poo.bankInput.transactions.CardDestroyedTransaction;
 import org.poo.handlers.CommandHandler;
 
@@ -25,7 +26,6 @@ public class DeleteAccount implements CommandHandler {
 
     @Override
     public void execute(final ArrayNode output) {
-        boolean accountDeleted = false;
         for (final User user : users) {
             if (user.getEmail().equals(email)) {
                 for (final Account account : user.getAccounts()) {
@@ -41,20 +41,22 @@ public class DeleteAccount implements CommandHandler {
                                         email
                                 ));
                             }
-                            accountDeleted = true;
                             user.removeAccount(account);
                             break;
+                        } else {
+                            user.addTransaction(new CannotDeleteAccountTransaction(
+                                    timestamp,
+                                    "The account couldn't be deleted because it has a balance greater than 0"
+                            ));
+                            outputError(output);
+                            return;
                         }
                     }
                 }
 
             }
         }
-        if (accountDeleted) {
             outputPrint(output);
-        } else {
-            outputError(output);
-        }
     }
 
 
