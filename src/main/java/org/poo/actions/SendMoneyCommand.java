@@ -61,7 +61,7 @@ public class SendMoneyCommand implements CommandHandler {
         }
 
         if (senderAccount.getBalance() < amount) {
-            senderUser.addTransaction(new InsufficientFundsTransaction(timestamp, "Insufficient funds"));
+            senderAccount.addTransaction(new InsufficientFundsTransaction(timestamp, "Insufficient funds"));
             return;
         }
 
@@ -80,8 +80,8 @@ public class SendMoneyCommand implements CommandHandler {
         senderAccount.setBalance(senderAccount.getBalance() - amount);
         receiverAccount.setBalance(receiverAccount.getBalance() + convertedAmount);
 
-        senderUser.addTransaction(new SentTransaction(timestamp, description, senderIBAN, receiverIBAN, amount, senderAccount.getCurrency()));
-        receiverUser.addTransaction(new ReceivedTransaction(timestamp, description, senderIBAN, receiverIBAN, convertedAmount, receiverAccount.getCurrency()));
+        senderAccount.addTransaction(new SentTransaction(timestamp, description, senderIBAN, receiverIBAN, amount, senderAccount.getCurrency()));
+        receiverAccount.addTransaction(new ReceivedTransaction(timestamp, description, senderIBAN, receiverIBAN, convertedAmount, receiverAccount.getCurrency()));
 
     }
 }

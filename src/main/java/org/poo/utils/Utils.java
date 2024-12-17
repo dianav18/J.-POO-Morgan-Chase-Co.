@@ -43,12 +43,6 @@ public final class Utils {
      * @return the card number as String
      */
     public static String generateCardNumber() {
-        try {
-            throw new RuntimeException();
-        } catch (final Exception e) {
-            e.printStackTrace();
-        }
-
         final StringBuilder sb = new StringBuilder();
         for (int i = 0; i < DIGIT_GENERATION; i++) {
             sb.append(cardRandom.nextInt(DIGIT_BOUND));

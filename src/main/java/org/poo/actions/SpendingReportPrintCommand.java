@@ -46,7 +46,7 @@ public class SpendingReportPrintCommand implements CommandHandler {
                     this.account = account;
                     balance = account.getBalance();
                     currency = account.getCurrency();
-                    transactions = user.getTransactions();
+                    transactions = account.getTransactions();
                     commerciants = account.getCommerciants();
                     accountFound = true;
                     if (account.getType().equals("savings")) {

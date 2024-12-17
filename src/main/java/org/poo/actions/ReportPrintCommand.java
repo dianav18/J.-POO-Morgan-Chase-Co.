@@ -40,7 +40,7 @@ public class ReportPrintCommand implements CommandHandler {
                 if (account.getIBAN().equals(accountIBAN)) {
                     balance = account.getBalance();
                     currency = account.getCurrency();
-                    transactions = user.getTransactions();
+                    transactions = account.getTransactions();
                     accountFound = true;
                     break;
                 }

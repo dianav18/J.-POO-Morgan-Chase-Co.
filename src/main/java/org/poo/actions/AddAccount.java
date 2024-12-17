@@ -46,7 +46,7 @@ public class AddAccount implements CommandHandler {
                 }
 
                 user.addAccount(newAccount);
-                user.addTransaction(new AccountCreatedTransaction(timestamp));
+                newAccount.addTransaction(new AccountCreatedTransaction(timestamp));
                 return;
             }
         }

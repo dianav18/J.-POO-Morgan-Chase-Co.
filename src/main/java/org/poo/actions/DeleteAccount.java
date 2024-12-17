@@ -7,6 +7,7 @@ import org.poo.bankInput.Card;
 import org.poo.bankInput.User;
 import org.poo.bankInput.transactions.CannotDeleteAccountTransaction;
 import org.poo.bankInput.transactions.CardDestroyedTransaction;
+import org.poo.bankInput.transactions.Transaction;
 import org.poo.handlers.CommandHandler;
 
 import java.util.List;
@@ -33,7 +34,7 @@ public class DeleteAccount implements CommandHandler {
                         if (account.getBalance() == 0) {
                             for (final Card card : account.getCards()) {
                                 card.destroy();
-                                user.addTransaction(new CardDestroyedTransaction(
+                                account.addTransaction(new CardDestroyedTransaction(
                                         timestamp,
                                         "The card has been destroyed",
                                         accountIBAN,
@@ -42,9 +43,12 @@ public class DeleteAccount implements CommandHandler {
                                 ));
                             }
                             user.removeAccount(account);
+                            for (final Transaction transaction : account.getTransactions()) {
+//                                user.addTransaction(transaction);
+                            }
                             break;
                         } else {
-                            user.addTransaction(new CannotDeleteAccountTransaction(
+                            account.addTransaction(new CannotDeleteAccountTransaction(
                                     timestamp,
                                     "The account couldn't be deleted because it has a balance greater than 0"
                             ));
@@ -56,7 +60,7 @@ public class DeleteAccount implements CommandHandler {
 
             }
         }
-            outputPrint(output);
+        outputPrint(output);
     }
 
 

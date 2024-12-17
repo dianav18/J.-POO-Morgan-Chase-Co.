@@ -32,7 +32,7 @@ public class ChangeInterestRateCommand implements CommandHandler {
                     if (account.getType().equals("savings")) {
                         accountIsSavinAccount = true;
                         final SavingsAccount savingsAccount = (SavingsAccount) account;
-                        user.addTransaction(new ChangeInterestRateTransaction(timestamp, newInterestRate, "Interest rate of the account changed to " + newInterestRate));
+                        savingsAccount.addTransaction(new ChangeInterestRateTransaction(timestamp, newInterestRate, "Interest rate of the account changed to " + newInterestRate));
                         savingsAccount.addInterest(newInterestRate);
                         return;
                     }

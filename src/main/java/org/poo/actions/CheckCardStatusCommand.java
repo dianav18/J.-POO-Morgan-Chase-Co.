@@ -33,7 +33,7 @@ public class CheckCardStatusCommand implements CommandHandler {
                         cardFound = true;
                         if (account.getBalance() <= account.getMinBalance()) {
                             card.freeze();
-                            user.addTransaction(new AccountWarningTransaction(timestamp, "You have reached the minimum amount of funds"));
+                            account.addTransaction(new AccountWarningTransaction(timestamp, "You have reached the minimum amount of funds"));
                             //user.addTransaction(new CardFrozenTransaction(timestamp, "The card is frozen"));
                             return;
                         }

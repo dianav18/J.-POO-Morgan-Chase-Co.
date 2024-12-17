@@ -25,7 +25,7 @@ public class DeleteCard implements CommandHandler {
             for (final var account : user.getAccounts()) {
                 for (final var card : account.getCards()) {
                     if (card.getCardNumber().equals(cardNumber)) {
-                        user.addTransaction(new CardDestroyedTransaction(
+                        account.addTransaction(new CardDestroyedTransaction(
                                 timestamp,
                                 "The card has been destroyed",
                                 account.getIBAN(),

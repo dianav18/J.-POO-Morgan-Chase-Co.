@@ -2,11 +2,11 @@ package org.poo.bankInput;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.poo.bankInput.transactions.CardCreatedTransaction;
 import org.poo.bankInput.transactions.Transaction;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -20,6 +20,7 @@ public class Account {
     private double minBalance;
     private List<Commerciant> commerciants;
     private List<Transaction> commerciantTransactions;
+    private List<Transaction> transactions;
 
     public Account(final String IBAN, final String currency, final String type) {
         this.IBAN = IBAN;
@@ -30,6 +31,7 @@ public class Account {
         this.minBalance = 0;
         commerciants = new ArrayList<>();
         commerciantTransactions = new ArrayList<>();
+        transactions = new ArrayList<>();
     }
 
     public void addCard(final Card card) {
@@ -44,7 +46,19 @@ public class Account {
         this.commerciants.add(commerciant);
     }
 
-    public void addTransaction(final Transaction transaction) {
+    public void addCommerciantTransaction(final Transaction transaction) {
         this.commerciantTransactions.add(transaction);
+    }
+
+    public void addTransaction(final Transaction transaction) {
+        if(transaction instanceof final CardCreatedTransaction lalala) {
+            if(!lalala.getAccount().equals(this.IBAN)) {
+                final int a = 1;
+            }
+
+//            this.addCommerciantTransaction(transaction);
+//            return;
+        }
+        this.transactions.add(transaction);
     }
 }

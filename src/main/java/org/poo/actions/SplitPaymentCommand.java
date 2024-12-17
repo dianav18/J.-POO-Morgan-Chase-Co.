@@ -65,7 +65,7 @@ public class SplitPaymentCommand implements CommandHandler {
                 for (final User user : users) {
                     for (final Account account : user.getAccounts()) {
                         if (account.getIBAN().equals(accountIBAN)) {
-                            user.addTransaction(new SplitPaymentTransaction(timestamp, currency, accountsForSplit, amountPerAccount, amount, true, problematicAccountIBAN));
+                            account.addTransaction(new SplitPaymentTransaction(timestamp, currency, accountsForSplit, amountPerAccount, amount, true, problematicAccountIBAN));
                         }
                     }
                 }
@@ -82,7 +82,7 @@ public class SplitPaymentCommand implements CommandHandler {
                                 : currencyConverter.convert(amountPerAccount, currency, account.getCurrency());
 
                         account.setBalance(account.getBalance() - amountInAccountCurrency);
-                        user.addTransaction(new SplitPaymentTransaction(timestamp, currency, accountsForSplit, amountPerAccount, amount, false, accountIBAN));
+                        account.addTransaction(new SplitPaymentTransaction(timestamp, currency, accountsForSplit, amountPerAccount, amount, false, accountIBAN));
                     }
                 }
             }

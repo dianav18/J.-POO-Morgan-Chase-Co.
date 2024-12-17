@@ -51,7 +51,7 @@ public class AddCards implements CommandHandler {
                         cardNumber = Utils.generateCardNumber();
                         final Card newCard = new Card(cardNumber, isOneTime);
                         account.addCard(newCard);
-                        user.addTransaction(new CardCreatedTransaction(timestamp, account.getIBAN(), cardNumber, user.getEmail()));
+                        account.addTransaction(new CardCreatedTransaction(timestamp, account.getIBAN(), cardNumber, user.getEmail()));
                     }
                 }
             }

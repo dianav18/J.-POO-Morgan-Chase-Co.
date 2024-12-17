@@ -11,7 +11,6 @@ import org.poo.handlers.CommandHandler;
 import org.poo.handlers.CurrencyConverter;
 import org.poo.utils.Utils;
 
-import java.sql.SQLOutput;
 import java.util.List;
 
 public class PayOnlineCommand implements CommandHandler {
@@ -68,7 +67,7 @@ public class PayOnlineCommand implements CommandHandler {
 
                             if (card.getStatus().equals("frozen")) {
                                // System.out.println("frozen");
-                                user.addTransaction(new CardFrozenTransaction(timestamp, "The card is frozen"));
+                                account.addTransaction(new CardFrozenTransaction(timestamp, "The card is frozen"));
                                 System.out.println(cardNumber + " " + timestamp + " the card is frozen");
                                 return;
                             }
@@ -81,7 +80,7 @@ public class PayOnlineCommand implements CommandHandler {
                             }
 
                             if (account.getBalance() < finalAmount) {
-                                user.addTransaction(new InsufficientFundsTransaction(timestamp, "Insufficient funds"));
+                                account.addTransaction(new InsufficientFundsTransaction(timestamp, "Insufficient funds"));
                                 System.out.println(cardNumber + " " + timestamp + " insufficient funds");
                                 return;
                             }
@@ -101,16 +100,16 @@ public class PayOnlineCommand implements CommandHandler {
                                     final Commerciant newCommerciant = new Commerciant(commerciant);
                                     newCommerciant.addSpentAmount(finalAmount);
                                     account.addCommerciant(newCommerciant);
-                                    account.addTransaction(new CommerciantTransaction(newCommerciant.getName(), finalAmount, timestamp));
+                                    account.addCommerciantTransaction(new CommerciantTransaction(newCommerciant.getName(), finalAmount, timestamp));
                                 }
-                                user.addTransaction(new CardPayment(timestamp, description, finalAmount, commerciant, timestamp));
+                                account.addTransaction(new CardPayment(timestamp, description, finalAmount, commerciant, timestamp));
                                 System.out.println(cardNumber + " " + timestamp + " success");
                                 if (card.isOneTime()) {
-                                    user.addTransaction(new CardDestroyedTransaction(timestamp, "Card destroyed", account.getIBAN(), card.getCardNumber(), user.getEmail()));
+                                    account.addTransaction(new CardDestroyedTransaction(timestamp, "Card destroyed", account.getIBAN(), card.getCardNumber(), user.getEmail()));
                                     account.removeCard(card);
                                     final Card newCard = new Card(Utils.generateCardNumber(), true);
                                     account.addCard(newCard);
-                                    user.addTransaction(new CardCreatedTransaction(timestamp, account.getIBAN(), newCard.getCardNumber(), user.getEmail()));
+                                    account.addTransaction(new CardCreatedTransaction(timestamp, account.getIBAN(), newCard.getCardNumber(), user.getEmail()));
                                 }
                                 return;
                             }
