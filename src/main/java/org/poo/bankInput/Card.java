@@ -32,10 +32,6 @@ public class Card {
         this.status = "frozen";
     }
 
-    public void warning() {
-        this.status = "warning";
-    }
-
     public boolean isFrozen() {
         return this.status.equals("frozen");
     }

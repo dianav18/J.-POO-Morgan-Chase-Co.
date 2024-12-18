@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.poo.bankInput.Account;
 import org.poo.bankInput.Commerciant;
 import org.poo.bankInput.User;
-import org.poo.bankInput.transactions.CardPayment;
+import org.poo.bankInput.transactions.CardPaymentTransaction;
 import org.poo.bankInput.transactions.Transaction;
 import org.poo.bankInput.transactions.TransactionPrinter;
 import org.poo.handlers.CommandHandler;
@@ -81,10 +81,10 @@ public class SpendingReportPrintCommand implements CommandHandler {
         final Map<String, Double> spendings = new HashMap<>();
         for (final Transaction transaction : transactions) {
             if (transaction.getTimestamp() >= startTimestamp && transaction.getTimestamp() <= endTimestamp) {
-                if (transaction instanceof CardPayment) {
-                    final CardPayment cardPayment = (CardPayment) transaction;
-                    final String commerciant = cardPayment.getCommerciant();
-                    final double amount = cardPayment.getAmount();
+                if (transaction instanceof CardPaymentTransaction) {
+                    final CardPaymentTransaction cardPaymentTransaction = (CardPaymentTransaction) transaction;
+                    final String commerciant = cardPaymentTransaction.getCommerciant();
+                    final double amount = cardPaymentTransaction.getAmount();
                     if (spendings.containsKey(commerciant)) {
                         spendings.put(commerciant, spendings.get(commerciant) + amount);
                     } else {

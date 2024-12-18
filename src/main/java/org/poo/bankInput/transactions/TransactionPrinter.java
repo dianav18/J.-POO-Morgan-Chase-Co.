@@ -39,7 +39,7 @@ public class TransactionPrinter implements TransactionVisitor {
     }
 
     @Override
-    public void visit(final CardPayment transaction) {
+    public void visit(final CardPaymentTransaction transaction) {
         final ObjectNode node = output.addObject();
         node.put("amount", transaction.getAmount());
         node.put("commerciant", transaction.getCommerciant());

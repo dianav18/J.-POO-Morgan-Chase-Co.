@@ -58,17 +58,8 @@ public class PayOnlineCommand implements CommandHandler {
                 for (final Account account : user.getAccounts()) {
                     for (final Card card : account.getCards()) {
                         if (card.getCardNumber().equals(cardNumber)) {
-                            //System.out.println("here");
-//                            if (card.getStatus().equals("warning")) {
-//                                //System.out.println("warning");
-//                                user.addTransaction(new AccountWarningTransaction(timestamp, "You have reached the minimum amount of funds"));
-//                                return;
-//                            }
-
                             if (card.getStatus().equals("frozen")) {
-                               // System.out.println("frozen");
                                 account.addTransaction(new CardFrozenTransaction(timestamp, "The card is frozen"));
-                                System.out.println(cardNumber + " " + timestamp + " the card is frozen");
                                 return;
                             }
 
@@ -81,7 +72,6 @@ public class PayOnlineCommand implements CommandHandler {
 
                             if (account.getBalance() < finalAmount) {
                                 account.addTransaction(new InsufficientFundsTransaction(timestamp, "Insufficient funds"));
-                                System.out.println(cardNumber + " " + timestamp + " insufficient funds");
                                 return;
                             }
 
@@ -102,8 +92,7 @@ public class PayOnlineCommand implements CommandHandler {
                                     account.addCommerciant(newCommerciant);
                                     account.addCommerciantTransaction(new CommerciantTransaction(newCommerciant.getName(), finalAmount, timestamp));
                                 }
-                                account.addTransaction(new CardPayment(timestamp, description, finalAmount, commerciant, timestamp));
-                                System.out.println(cardNumber + " " + timestamp + " success");
+                                account.addTransaction(new CardPaymentTransaction(timestamp, description, finalAmount, commerciant, timestamp));
                                 if (card.isOneTime()) {
                                     account.addTransaction(new CardDestroyedTransaction(timestamp, "Card destroyed", account.getIBAN(), card.getCardNumber(), user.getEmail()));
                                     account.removeCard(card);
@@ -117,7 +106,6 @@ public class PayOnlineCommand implements CommandHandler {
                     }
                 }
                 if (!cardFound) {
-                    System.out.println(cardNumber + " " + timestamp + " card not found");
                     cardNotFoundOutput(output);
                     return;
                 }

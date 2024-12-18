@@ -7,7 +7,6 @@ import org.poo.actions.*;
 import org.poo.bankInput.Account;
 //import org.poo.bankInput.Commerciants;
 import org.poo.bankInput.ExchangeRate;
-import org.poo.fileio.CommerciantInput;
 import org.poo.handlers.*;
 import org.poo.bankInput.User;
 import org.poo.checker.Checker;
@@ -98,7 +97,6 @@ public final class Main {
 
 
         for (final CommandInput command : inputData.getCommands()) {
-            CommandHandler handler = null;
 
             switch(command.getCommand()) {
                 case "printTransactions":
@@ -111,56 +109,68 @@ public final class Main {
                     invoker.executeCommands(output);
                     break;
                 case "printUsers" :
-                    handler = new PrintUsers(users, command.getTimestamp());
+                    invoker.addCommand(new PrintUsersCommand(users, command.getTimestamp()));
+                    invoker.executeCommands(output);
                     break;
                 case "addAccount" :
-                   final AddAccount addAccount = new AddAccount(
+                   final AddAccountCommand addAccountCommand = new AddAccountCommand(
                            command.getEmail(),
                            command.getCurrency(),
                            command.getAccountType(),
                            command.getInterestRate(),
                            command.getTimestamp(),
                            users);
-                    addAccount.execute(output);
+                    invoker.addCommand(addAccountCommand);
+                    invoker.executeCommands(output);
+                    //addAccount.execute(output);
                     break;
                 case "addFunds" :
-                    handler = new AddFunds(
+                    final AddFundsCommand addFundsCommand =  new AddFundsCommand(
                             command.getAccount(),
                             command.getAmount(),
                             command.getTimestamp(),
                             users);
+                    invoker.addCommand(addFundsCommand);
+                    invoker.executeCommands(output);
                     break;
                 case "createCard" :
-                    handler = new AddCards(
+                    final AddCardsCommand addCardsCommand =  new AddCardsCommand(
                             command.getAccount(),
                             command.getEmail(),
                             //command.getCardNumber(),
                             false,
                             command.getTimestamp(),
                             users);
+                    invoker.addCommand(addCardsCommand);
+                    invoker.executeCommands(output);
                     break;
                 case "createOneTimeCard" :
-                    handler = new AddCards(
+                    final AddCardsCommand addOneTimeCards = new AddCardsCommand(
                             command.getAccount(),
                             command.getEmail(),
                             //command.getCardNumber(),
                             true,
                             command.getTimestamp(),
                             users);
+                    invoker.addCommand(addOneTimeCards);
+                    invoker.executeCommands(output);
                     break;
-
                 case "deleteAccount" :
-                    handler = new DeleteAccount(
+                    final DeleteAccountCommand deleteAccountCommand = new DeleteAccountCommand(
                             command.getAccount(),
                             command.getTimestamp(),
                             command.getEmail(),
                             users);
+                    invoker.addCommand(deleteAccountCommand);
+                    invoker.executeCommands(output);
                     break;
                 case "deleteCard" :
-                    handler = new org.poo.actions.DeleteCard(
+                   final DeleteCardCommand deleteCardCommand = new DeleteCardCommand(
                             command.getCardNumber(),
                             command.getTimestamp(),
                             users);
+                   invoker.addCommand(deleteCardCommand);
+                   invoker.executeCommands(output);
                     break;
                 case "payOnline" :
                     final PayOnlineCommand payOnline = new PayOnlineCommand(
@@ -190,7 +200,6 @@ public final class Main {
                     );
 
                     invoker.addCommand(sendMoney);
-
                     invoker.executeCommands(output);
                     break;
                 case "setAlias" :
@@ -200,7 +209,6 @@ public final class Main {
                             command.getAccount(),
                             users);
                     invoker.addCommand(setAlias);
-
                     invoker.executeCommands(output);
                     break;
                 case "setMinBalance" :
@@ -276,9 +284,6 @@ public final class Main {
                     invoker.addCommand(changeInterestRateCommand);
                     invoker.executeCommands(output);
                     break;
-            }
-            if (handler != null) {
-                handler.execute(output);
             }
         }
 

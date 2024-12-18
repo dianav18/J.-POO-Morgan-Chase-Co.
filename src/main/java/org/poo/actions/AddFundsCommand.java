@@ -6,13 +6,13 @@ import org.poo.handlers.CommandHandler;
 
 import java.util.List;
 
-public class AddFunds implements CommandHandler {
+public class AddFundsCommand implements CommandHandler {
     private final String account;
     private final double amount;
     private final int timestamp;
     private final List<User> users;
 
-    public AddFunds(final String account, final double amount, final int timestamp, final List<User> users) {
+    public AddFundsCommand(final String account, final double amount, final int timestamp, final List<User> users) {
         this.account = account;
         this.amount = amount;
         this.timestamp = timestamp;

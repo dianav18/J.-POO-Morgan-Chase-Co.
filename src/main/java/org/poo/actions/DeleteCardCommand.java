@@ -7,12 +7,12 @@ import org.poo.handlers.CommandHandler;
 
 import java.util.List;
 
-public class DeleteCard implements CommandHandler {
+public class DeleteCardCommand implements CommandHandler {
     private final String cardNumber;
     private final int timestamp;
     private final List<User> users;
 
-    public DeleteCard(final String cardNumber, final int timestamp, final List<User> users) {
+    public DeleteCardCommand(final String cardNumber, final int timestamp, final List<User> users) {
         this.cardNumber = cardNumber;
         this.timestamp = timestamp;
         this.users = users;

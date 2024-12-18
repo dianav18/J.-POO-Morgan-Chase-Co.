@@ -1,18 +1,19 @@
-package org.poo.handlers;
+package org.poo.actions;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.poo.bankInput.Account;
 import org.poo.bankInput.Card;
 import org.poo.bankInput.User;
+import org.poo.handlers.CommandHandler;
 
 import java.util.List;
 
-public class PrintUsers implements CommandHandler {
+public class PrintUsersCommand implements CommandHandler {
     private final List<User> users;
     private final int timestamp;
 
-    public PrintUsers(final List<User> users, final int timestamp) {
+    public PrintUsersCommand(final List<User> users, final int timestamp) {
         this.users = users;
         this.timestamp = timestamp;
     }

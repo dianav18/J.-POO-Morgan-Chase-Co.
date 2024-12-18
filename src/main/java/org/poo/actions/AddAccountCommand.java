@@ -1,8 +1,6 @@
 package org.poo.actions;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.poo.bankInput.*;
 import org.poo.bankInput.transactions.AccountCreatedTransaction;
 import org.poo.handlers.CommandHandler;
@@ -10,7 +8,7 @@ import org.poo.utils.Utils;
 
 import java.util.List;
 
-public class AddAccount implements CommandHandler {
+public class AddAccountCommand implements CommandHandler {
     private final String email;
     private final String currency;
     private final String accountType;
@@ -18,9 +16,9 @@ public class AddAccount implements CommandHandler {
     private final int timestamp;
     private final List<User> users;
 
-    public AddAccount(final String email, final String currency,
-                      final String accountType, final double interestRate,
-                      final int timestamp, final List<User> users) {
+    public AddAccountCommand(final String email, final String currency,
+                             final String accountType, final double interestRate,
+                             final int timestamp, final List<User> users) {
         this.email = email;
         this.currency = currency;
         this.accountType = accountType;

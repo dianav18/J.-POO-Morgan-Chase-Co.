@@ -12,13 +12,13 @@ import org.poo.handlers.CommandHandler;
 
 import java.util.List;
 
-public class DeleteAccount implements CommandHandler {
+public class DeleteAccountCommand implements CommandHandler {
     private final String accountIBAN;
     private final int timestamp;
     private final String email;
     private final List<User> users;
 
-    public DeleteAccount(final String accountIBAN, final int timestamp, final String email, final List<User> users) {
+    public DeleteAccountCommand(final String accountIBAN, final int timestamp, final String email, final List<User> users) {
         this.accountIBAN = accountIBAN;
         this.timestamp = timestamp;
         this.email = email;
