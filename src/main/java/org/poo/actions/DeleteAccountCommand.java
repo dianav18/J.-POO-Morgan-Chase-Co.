@@ -7,18 +7,18 @@ import org.poo.bankInput.Card;
 import org.poo.bankInput.User;
 import org.poo.bankInput.transactions.CannotDeleteAccountTransaction;
 import org.poo.bankInput.transactions.CardDestroyedTransaction;
-import org.poo.bankInput.transactions.Transaction;
 import org.poo.handlers.CommandHandler;
 
 import java.util.List;
 
-public class DeleteAccountCommand implements CommandHandler {
+public final class DeleteAccountCommand implements CommandHandler {
     private final String accountIBAN;
     private final int timestamp;
     private final String email;
     private final List<User> users;
 
-    public DeleteAccountCommand(final String accountIBAN, final int timestamp, final String email, final List<User> users) {
+    public DeleteAccountCommand(final String accountIBAN, final int timestamp,
+                                final String email, final List<User> users) {
         this.accountIBAN = accountIBAN;
         this.timestamp = timestamp;
         this.email = email;
@@ -30,7 +30,7 @@ public class DeleteAccountCommand implements CommandHandler {
         for (final User user : users) {
             if (user.getEmail().equals(email)) {
                 for (final Account account : user.getAccounts()) {
-                    if (account.getIBAN().equals(accountIBAN)) {
+                    if (account.getAccountIBAN().equals(accountIBAN)) {
                         if (account.getBalance() == 0) {
                             for (final Card card : account.getCards()) {
                                 card.destroy();
@@ -43,14 +43,12 @@ public class DeleteAccountCommand implements CommandHandler {
                                 ));
                             }
                             user.removeAccount(account);
-                            for (final Transaction transaction : account.getTransactions()) {
-//                                user.addTransaction(transaction);
-                            }
                             break;
                         } else {
                             account.addTransaction(new CannotDeleteAccountTransaction(
                                     timestamp,
-                                    "The account couldn't be deleted because it has a balance greater than 0"
+                                    "The account couldn't be deleted because it has"
+                                            + "a balance greater than 0"
                             ));
                             outputError(output);
                             return;
@@ -69,7 +67,8 @@ public class DeleteAccountCommand implements CommandHandler {
         errorOutput.put("command", "deleteAccount");
         errorOutput.put("timestamp", timestamp);
         final ObjectNode errorDetails = errorOutput.putObject("output");
-        errorDetails.put("error", "Account couldn't be deleted - see org.poo.transactions for details");
+        errorDetails.put("error",
+                "Account couldn't be deleted - see org.poo.transactions for details");
         errorDetails.put("timestamp", timestamp);
     }
 

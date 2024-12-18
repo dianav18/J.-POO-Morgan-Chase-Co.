@@ -9,14 +9,15 @@ import org.poo.handlers.CommandHandler;
 
 import java.util.List;
 
-public class AddInterestCommand implements CommandHandler {
+public final class AddInterestCommand implements CommandHandler {
     private final int timestamp;
     private final String accountIBAN;
     private double interestRate;
 
     private final List<User> users;
 
-    public AddInterestCommand(final int timestamp, final String accountIBAN, final double interestRate, final List<User> users) {
+    public AddInterestCommand(final int timestamp, final String accountIBAN,
+                              final double interestRate, final List<User> users) {
         this.timestamp = timestamp;
         this.accountIBAN = accountIBAN;
         this.interestRate = interestRate;
@@ -28,7 +29,7 @@ public class AddInterestCommand implements CommandHandler {
         boolean accountIsSavinAccount = false;
         for (final User user : users) {
             for (final Account account : user.getAccounts()) {
-                if (account.getIBAN().equals(accountIBAN)) {
+                if (account.getAccountIBAN().equals(accountIBAN)) {
                     if (account.getType().equals("savings")) {
                         accountIsSavinAccount = true;
                         final SavingsAccount savingsAccount = (SavingsAccount) account;

@@ -12,7 +12,7 @@ import org.poo.handlers.CommandHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReportPrintCommand implements CommandHandler {
+public final class ReportPrintCommand implements CommandHandler {
     private final int startTimestamp;
     private final int endTimestamp;
     private final String accountIBAN;
@@ -20,7 +20,9 @@ public class ReportPrintCommand implements CommandHandler {
     private List<Transaction> transactions;
     private final List<User> users;
 
-    public ReportPrintCommand(final int startTimestamp, final int endTimestamp, final String accountIBAN, final int timestamp, final List<User> users) {
+    public ReportPrintCommand(final int startTimestamp, final int endTimestamp,
+                              final String accountIBAN, final int timestamp,
+                              final List<User> users) {
         this.startTimestamp = startTimestamp;
         this.endTimestamp = endTimestamp;
         this.accountIBAN = accountIBAN;
@@ -37,7 +39,7 @@ public class ReportPrintCommand implements CommandHandler {
 
         for (final User user : users) {
             for (final Account account : user.getAccounts()) {
-                if (account.getIBAN().equals(accountIBAN)) {
+                if (account.getAccountIBAN().equals(accountIBAN)) {
                     balance = account.getBalance();
                     currency = account.getCurrency();
                     transactions = account.getTransactions();
@@ -69,7 +71,8 @@ public class ReportPrintCommand implements CommandHandler {
 
         final ArrayNode transactionsArray = objectMapper.createArrayNode();
         for (final Transaction transaction : transactions) {
-            if (transaction.getTimestamp() >= startTimestamp && transaction.getTimestamp() <= endTimestamp) {
+            if (transaction.getTimestamp() >= startTimestamp
+                    && transaction.getTimestamp() <= endTimestamp) {
                 transaction.accept(new TransactionPrinter(transactionsArray));
             }
         }

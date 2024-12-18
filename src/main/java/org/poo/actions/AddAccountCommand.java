@@ -1,14 +1,17 @@
 package org.poo.actions;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import org.poo.bankInput.*;
+import org.poo.bankInput.Account;
+import org.poo.bankInput.User;
+import org.poo.bankInput.ClassicAccount;
+import org.poo.bankInput.SavingsAccount;
 import org.poo.bankInput.transactions.AccountCreatedTransaction;
 import org.poo.handlers.CommandHandler;
 import org.poo.utils.Utils;
 
 import java.util.List;
 
-public class AddAccountCommand implements CommandHandler {
+public final class AddAccountCommand implements CommandHandler {
     private final String email;
     private final String currency;
     private final String accountType;
@@ -33,12 +36,12 @@ public class AddAccountCommand implements CommandHandler {
             if (user.getEmail().equals(email)) {
                 final Account newAccount;
 
-                final String IBAN = Utils.generateIBAN();
+                final String accountIBAN = Utils.generateIBAN();
 
                 if (accountType.equals("classic")) {
-                    newAccount = new ClassicAccount(IBAN, currency);
+                    newAccount = new ClassicAccount(accountIBAN, currency);
                 } else if (accountType.equals("savings")) {
-                    newAccount = new SavingsAccount(IBAN, currency, interestRate);
+                    newAccount = new SavingsAccount(accountIBAN, currency, interestRate);
                 } else {
                     throw new IllegalArgumentException("Invalid account type: " + accountType);
                 }

@@ -9,7 +9,7 @@ import org.poo.handlers.CurrencyConverter;
 
 import java.util.List;
 
-public class SplitPaymentCommand implements CommandHandler {
+public final class SplitPaymentCommand implements CommandHandler {
     private final List<String> accountsForSplit;
     private final int timestamp;
     private final String currency;
@@ -17,7 +17,10 @@ public class SplitPaymentCommand implements CommandHandler {
     private final List<User> users;
     private final CurrencyConverter currencyConverter;
 
-    public SplitPaymentCommand(final List<String> accountsForSplit, final int timestamp, final String currency, final double amount, final List<User> users, final CurrencyConverter currencyConverter) {
+    public SplitPaymentCommand(final List<String> accountsForSplit,
+                               final int timestamp, final String currency,
+                               final double amount, final List<User> users,
+                               final CurrencyConverter currencyConverter) {
         this.accountsForSplit = accountsForSplit;
         this.timestamp = timestamp;
         this.currency = currency;
@@ -38,16 +41,15 @@ public class SplitPaymentCommand implements CommandHandler {
             boolean foundAccount = false;
             for (final User user : users) {
                 for (final Account account : user.getAccounts()) {
-                    if (account.getIBAN().equals(accountIBAN)) {
+                    if (account.getAccountIBAN().equals(accountIBAN)) {
                         foundAccount = true;
-                        final double amountInAccountCurrency = account.getCurrency().equals(currency)
+                        final double amountInAccountCurrency
+                                = account.getCurrency().equals(currency)
                                 ? amountPerAccount
-                                : currencyConverter.convert(amountPerAccount, currency, account.getCurrency());
+                                : currencyConverter.convert(
+                                        amountPerAccount, currency, account.getCurrency());
 
                         if (account.getBalance() < amountInAccountCurrency) {
-                            //System.out.println("Insufficient funds");
-                            //user.addTransaction(new SplitPaymentTransaction(timestamp, currency, accountsForSplit, amountPerAccount, amount, true, accountIBAN));
-                            //System.out.println("Insufficient funds");
                             problematicAccountIBAN = accountIBAN;
                             hasError = true;
                         }
@@ -64,8 +66,11 @@ public class SplitPaymentCommand implements CommandHandler {
             for (final String accountIBAN : accountsForSplit) {
                 for (final User user : users) {
                     for (final Account account : user.getAccounts()) {
-                        if (account.getIBAN().equals(accountIBAN)) {
-                            account.addTransaction(new SplitPaymentTransaction(timestamp, currency, accountsForSplit, amountPerAccount, amount, true, problematicAccountIBAN));
+                        if (account.getAccountIBAN().equals(accountIBAN)) {
+                            account.addTransaction(new SplitPaymentTransaction(
+                                    timestamp, currency, accountsForSplit,
+                                    amountPerAccount, amount, true,
+                                    problematicAccountIBAN));
                         }
                     }
                 }
@@ -76,13 +81,17 @@ public class SplitPaymentCommand implements CommandHandler {
         for (final String accountIBAN : accountsForSplit) {
             for (final User user : users) {
                 for (final Account account : user.getAccounts()) {
-                    if (account.getIBAN().equals(accountIBAN)) {
-                        final double amountInAccountCurrency = account.getCurrency().equals(currency)
+                    if (account.getAccountIBAN().equals(accountIBAN)) {
+                        final double amountInAccountCurrency
+                                = account.getCurrency().equals(currency)
                                 ? amountPerAccount
-                                : currencyConverter.convert(amountPerAccount, currency, account.getCurrency());
+                                : currencyConverter.convert(amountPerAccount,
+                                currency, account.getCurrency());
 
                         account.setBalance(account.getBalance() - amountInAccountCurrency);
-                        account.addTransaction(new SplitPaymentTransaction(timestamp, currency, accountsForSplit, amountPerAccount, amount, false, accountIBAN));
+                        account.addTransaction(new SplitPaymentTransaction(timestamp,
+                                currency, accountsForSplit, amountPerAccount,
+                                amount, false, accountIBAN));
                     }
                 }
             }

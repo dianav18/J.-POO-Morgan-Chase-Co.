@@ -7,14 +7,15 @@ import org.poo.handlers.CommandHandler;
 
 import java.util.List;
 
-public class SetAliasCommand implements CommandHandler {
+public final class SetAliasCommand implements CommandHandler {
     private final String email;
     private final String alias;
     private final String accountIBAN;
 
     private final List<User> users;
 
-    public SetAliasCommand(final String email, final String alias, final String accountIBAN, final List<User> users) {
+    public SetAliasCommand(final String email, final String alias,
+                           final String accountIBAN, final List<User> users) {
         this.email = email;
         this.alias = alias;
         this.accountIBAN = accountIBAN;
@@ -27,7 +28,7 @@ public class SetAliasCommand implements CommandHandler {
         for (final User user : users) {
             if (user.getEmail().equals(email)) {
                 for (final Account account : user.getAccounts()) {
-                    if (account.getIBAN().equals(accountIBAN)) {
+                    if (account.getAccountIBAN().equals(accountIBAN)) {
                         account.setAlias(alias);
                     }
                 }

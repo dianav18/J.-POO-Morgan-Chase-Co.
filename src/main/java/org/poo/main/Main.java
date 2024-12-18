@@ -122,7 +122,6 @@ public final class Main {
                            users);
                     invoker.addCommand(addAccountCommand);
                     invoker.executeCommands(output);
-                    //addAccount.execute(output);
                     break;
                 case "addFunds" :
                     final AddFundsCommand addFundsCommand =  new AddFundsCommand(
@@ -137,7 +136,6 @@ public final class Main {
                     final AddCardsCommand addCardsCommand =  new AddCardsCommand(
                             command.getAccount(),
                             command.getEmail(),
-                            //command.getCardNumber(),
                             false,
                             command.getTimestamp(),
                             users);
@@ -148,7 +146,6 @@ public final class Main {
                     final AddCardsCommand addOneTimeCards = new AddCardsCommand(
                             command.getAccount(),
                             command.getEmail(),
-                            //command.getCardNumber(),
                             true,
                             command.getTimestamp(),
                             users);

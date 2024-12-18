@@ -10,10 +10,13 @@ import org.poo.bankInput.transactions.CardPaymentTransaction;
 import org.poo.bankInput.transactions.Transaction;
 import org.poo.bankInput.transactions.TransactionPrinter;
 import org.poo.handlers.CommandHandler;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Comparator;
 
-import java.util.*;
-
-public class SpendingReportPrintCommand implements CommandHandler {
+public final class SpendingReportPrintCommand implements CommandHandler {
     private final int startTimestamp;
     private final int endTimestamp;
     private final String accountIBAN;
@@ -24,7 +27,9 @@ public class SpendingReportPrintCommand implements CommandHandler {
 
     private Account account;
 
-    public SpendingReportPrintCommand(final int startTimestamp, final int endTimestamp, final String accountIBAN, final int timestamp, final List<User> users) {
+    public SpendingReportPrintCommand(final int startTimestamp, final int endTimestamp,
+                                      final String accountIBAN, final int timestamp,
+                                      final List<User> users) {
         this.startTimestamp = startTimestamp;
         this.endTimestamp = endTimestamp;
         this.accountIBAN = accountIBAN;
@@ -41,19 +46,20 @@ public class SpendingReportPrintCommand implements CommandHandler {
         String currency = null;
 
         for (final User user : users) {
-            for (final Account account : user.getAccounts()) {
-                if (account.getIBAN().equals(accountIBAN)) {
-                    this.account = account;
-                    balance = account.getBalance();
-                    currency = account.getCurrency();
-                    transactions = account.getTransactions();
-                    commerciants = account.getCommerciants();
+            for (final Account acc : user.getAccounts()) {
+                if (acc.getAccountIBAN().equals(accountIBAN)) {
+                    this.account = acc;
+                    balance = acc.getBalance();
+                    currency = acc.getCurrency();
+                    transactions = acc.getTransactions();
+                    commerciants = acc.getCommerciants();
                     accountFound = true;
                     if (account.getType().equals("savings")) {
                         final ObjectNode outputNode = output.addObject();
                         outputNode.put("command", "spendingsReport");
                         final ObjectNode reportNode = outputNode.putObject("output");
-                        reportNode.put("error", "This kind of report is not supported for a saving account");
+                        reportNode.put("error",
+                                "This kind of report is not supported for a saving account");
                         outputNode.put("timestamp", timestamp);
                         return;
                     }
@@ -80,9 +86,11 @@ public class SpendingReportPrintCommand implements CommandHandler {
 
         final Map<String, Double> spendings = new HashMap<>();
         for (final Transaction transaction : transactions) {
-            if (transaction.getTimestamp() >= startTimestamp && transaction.getTimestamp() <= endTimestamp) {
+            if (transaction.getTimestamp() >= startTimestamp
+                    && transaction.getTimestamp() <= endTimestamp) {
                 if (transaction instanceof CardPaymentTransaction) {
-                    final CardPaymentTransaction cardPaymentTransaction = (CardPaymentTransaction) transaction;
+                    final CardPaymentTransaction cardPaymentTransaction
+                            = (CardPaymentTransaction) transaction;
                     final String commerciant = cardPaymentTransaction.getCommerciant();
                     final double amount = cardPaymentTransaction.getAmount();
                     if (spendings.containsKey(commerciant)) {
@@ -110,8 +118,10 @@ public class SpendingReportPrintCommand implements CommandHandler {
 
         final ArrayNode transactionsArray = objectMapper.createArrayNode();
         for (final Transaction transaction : account.getCommerciantTransactions()) {
-            if (transaction.getTimestamp() >= startTimestamp && transaction.getTimestamp() <= endTimestamp) {
-                final TransactionPrinter transactionPrinter = new TransactionPrinter(transactionsArray);
+            if (transaction.getTimestamp() >= startTimestamp
+                    && transaction.getTimestamp() <= endTimestamp) {
+                final TransactionPrinter transactionPrinter
+                        = new TransactionPrinter(transactionsArray);
                 transaction.accept(transactionPrinter);
             }
         }

@@ -1,17 +1,17 @@
 package org.poo.actions;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.poo.bankInput.Account;
-import org.poo.bankInput.Card;
 import org.poo.bankInput.User;
-import org.poo.bankInput.transactions.*;
+import org.poo.bankInput.transactions.InsufficientFundsTransaction;
+import org.poo.bankInput.transactions.ReceivedTransaction;
+import org.poo.bankInput.transactions.SentTransaction;
 import org.poo.handlers.CommandHandler;
 import org.poo.handlers.CurrencyConverter;
 
 import java.util.List;
 
-public class SendMoneyCommand implements CommandHandler {
+public final class SendMoneyCommand implements CommandHandler {
     private final String senderIBAN;
     private final double amount;
     private final String receiverIBAN;
@@ -24,7 +24,11 @@ public class SendMoneyCommand implements CommandHandler {
     private final List<User> users;
 
 
-    public SendMoneyCommand(final String senderIBAN, final double amount, final String receiverIBAN, final int timestamp, final String description, final List<Account> accounts, final CurrencyConverter currencyConverter, final List<User> users) {
+    public SendMoneyCommand(final String senderIBAN, final double amount,
+                            final String receiverIBAN, final int timestamp,
+                            final String description, final List<Account> accounts,
+                            final CurrencyConverter currencyConverter,
+                            final List<User> users) {
         this.senderIBAN = senderIBAN;
         this.amount = amount;
         this.receiverIBAN = receiverIBAN;
@@ -45,11 +49,11 @@ public class SendMoneyCommand implements CommandHandler {
 
         for (final User user : users) {
             for (final Account account : user.getAccounts()) {
-                if (account.getIBAN().equals(senderIBAN)) {
+                if (account.getAccountIBAN().equals(senderIBAN)) {
                     senderAccount = account;
                     senderUser = user;
                 }
-                if (account.getIBAN().equals(receiverIBAN)) {
+                if (account.getAccountIBAN().equals(receiverIBAN)) {
                     receiverAccount = account;
                     receiverUser = user;
                 }
@@ -61,7 +65,8 @@ public class SendMoneyCommand implements CommandHandler {
         }
 
         if (senderAccount.getBalance() < amount) {
-            senderAccount.addTransaction(new InsufficientFundsTransaction(timestamp, "Insufficient funds"));
+            senderAccount.addTransaction(new InsufficientFundsTransaction(timestamp,
+                    "Insufficient funds"));
             return;
         }
 
@@ -71,7 +76,8 @@ public class SendMoneyCommand implements CommandHandler {
 
         double convertedAmount = amount;
         if (!senderAccount.getCurrency().equals(receiverAccount.getCurrency())) {
-            convertedAmount = currencyConverter.convert(amount, senderAccount.getCurrency(), receiverAccount.getCurrency());
+            convertedAmount = currencyConverter.convert(amount, senderAccount.getCurrency(),
+                    receiverAccount.getCurrency());
             if (convertedAmount == -1) {
                 return;
             }
@@ -80,8 +86,10 @@ public class SendMoneyCommand implements CommandHandler {
         senderAccount.setBalance(senderAccount.getBalance() - amount);
         receiverAccount.setBalance(receiverAccount.getBalance() + convertedAmount);
 
-        senderAccount.addTransaction(new SentTransaction(timestamp, description, senderIBAN, receiverIBAN, amount, senderAccount.getCurrency()));
-        receiverAccount.addTransaction(new ReceivedTransaction(timestamp, description, senderIBAN, receiverIBAN, convertedAmount, receiverAccount.getCurrency()));
+        senderAccount.addTransaction(new SentTransaction(timestamp, description, senderIBAN,
+                receiverIBAN, amount, senderAccount.getCurrency()));
+        receiverAccount.addTransaction(new ReceivedTransaction(timestamp, description,
+                senderIBAN, receiverIBAN, convertedAmount, receiverAccount.getCurrency()));
 
     }
 }

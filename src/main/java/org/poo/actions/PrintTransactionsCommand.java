@@ -9,12 +9,13 @@ import org.poo.handlers.CommandHandler;
 
 import java.util.List;
 
-public class PrintTransactionsCommand implements CommandHandler {
+public final class PrintTransactionsCommand implements CommandHandler {
     private final String email;
     private final int timestamp;
     private final List<User> users;
 
-    public PrintTransactionsCommand(final String email, final int timestamp, final List<User> users) {
+    public PrintTransactionsCommand(final String email, final int timestamp,
+                                    final List<User> users) {
         this.email = email;
         this.timestamp = timestamp;
         this.users = users;

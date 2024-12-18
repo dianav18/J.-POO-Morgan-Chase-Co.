@@ -11,7 +11,7 @@ import java.util.List;
 @Getter
 @Setter
 public class Account {
-    private String IBAN;
+    private String accountIBAN;
     private String currency;
     private String type;
     private double balance;
@@ -22,8 +22,8 @@ public class Account {
     private List<Transaction> commerciantTransactions;
     private List<Transaction> transactions;
 
-    public Account(final String IBAN, final String currency, final String type) {
-        this.IBAN = IBAN;
+    public Account(final String accountIBAN, final String currency, final String type) {
+        this.accountIBAN = accountIBAN;
         this.currency = currency;
         this.type = type;
         this.balance = 0;
@@ -52,12 +52,9 @@ public class Account {
 
     public void addTransaction(final Transaction transaction) {
         if(transaction instanceof final CardCreatedTransaction lalala) {
-            if(!lalala.getAccount().equals(this.IBAN)) {
+            if(!lalala.getAccount().equals(this.accountIBAN)) {
                 final int a = 1;
             }
-
-//            this.addCommerciantTransaction(transaction);
-//            return;
         }
         this.transactions.add(transaction);
     }

@@ -6,17 +6,17 @@ import org.poo.bankInput.Account;
 import org.poo.bankInput.Card;
 import org.poo.bankInput.User;
 import org.poo.bankInput.transactions.AccountWarningTransaction;
-import org.poo.bankInput.transactions.CardFrozenTransaction;
 import org.poo.handlers.CommandHandler;
 
 import java.util.List;
 
-public class CheckCardStatusCommand implements CommandHandler {
+public final class CheckCardStatusCommand implements CommandHandler {
     private final String cardNumber;
     private final int timestamp;
     private final List<User> users;
 
-    public CheckCardStatusCommand(final String cardNumber, final int timestamp, final List<User> users) {
+    public CheckCardStatusCommand(final String cardNumber, final int timestamp,
+                                  final List<User> users) {
         this.cardNumber = cardNumber;
         this.timestamp = timestamp;
         this.users = users;
@@ -33,8 +33,8 @@ public class CheckCardStatusCommand implements CommandHandler {
                         cardFound = true;
                         if (account.getBalance() <= account.getMinBalance()) {
                             card.freeze();
-                            account.addTransaction(new AccountWarningTransaction(timestamp, "You have reached the minimum amount of funds"));
-                            //user.addTransaction(new CardFrozenTransaction(timestamp, "The card is frozen"));
+                            account.addTransaction(new AccountWarningTransaction(timestamp,
+                                    "You have reached the minimum amount of funds"));
                             return;
                         }
                     }

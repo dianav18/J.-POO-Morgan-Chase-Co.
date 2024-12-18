@@ -6,14 +6,19 @@ import org.poo.bankInput.Account;
 import org.poo.bankInput.Card;
 import org.poo.bankInput.Commerciant;
 import org.poo.bankInput.User;
-import org.poo.bankInput.transactions.*;
+import org.poo.bankInput.transactions.CardPaymentTransaction;
+import org.poo.bankInput.transactions.CardDestroyedTransaction;
+import org.poo.bankInput.transactions.CardCreatedTransaction;
+import org.poo.bankInput.transactions.CardFrozenTransaction;
+import org.poo.bankInput.transactions.InsufficientFundsTransaction;
+import org.poo.bankInput.transactions.CommerciantTransaction;
 import org.poo.handlers.CommandHandler;
 import org.poo.handlers.CurrencyConverter;
 import org.poo.utils.Utils;
 
 import java.util.List;
 
-public class PayOnlineCommand implements CommandHandler {
+public final class PayOnlineCommand implements CommandHandler {
     private final String cardNumber;
     private final double amount;
     private final String currency;
@@ -24,8 +29,10 @@ public class PayOnlineCommand implements CommandHandler {
     private final List<User> users;
     private final CurrencyConverter currencyConverter;
 
-    public PayOnlineCommand(final String cardNumber, final double amount, final String currency, final int timestamp, final String description,
-                            final String commerciant, final String email, final List<User> users, final CurrencyConverter currencyConverter) {
+    public PayOnlineCommand(final String cardNumber, final double amount, final String currency,
+                            final int timestamp, final String description,
+                            final String commerciant, final String email,
+                            final List<User> users, final CurrencyConverter currencyConverter) {
         this.cardNumber = cardNumber;
         this.amount = amount;
         this.currency = currency;
@@ -59,7 +66,8 @@ public class PayOnlineCommand implements CommandHandler {
                     for (final Card card : account.getCards()) {
                         if (card.getCardNumber().equals(cardNumber)) {
                             if (card.getStatus().equals("frozen")) {
-                                account.addTransaction(new CardFrozenTransaction(timestamp, "The card is frozen"));
+                                account.addTransaction(new CardFrozenTransaction(timestamp,
+                                        "The card is frozen"));
                                 return;
                             }
 
@@ -67,18 +75,21 @@ public class PayOnlineCommand implements CommandHandler {
                             double finalAmount = amount;
 
                             if (!currency.equals(account.getCurrency())) {
-                                finalAmount = currencyConverter.convert(amount, currency, account.getCurrency());
+                                finalAmount = currencyConverter.convert(amount, currency,
+                                        account.getCurrency());
                             }
 
                             if (account.getBalance() < finalAmount) {
-                                account.addTransaction(new InsufficientFundsTransaction(timestamp, "Insufficient funds"));
+                                account.addTransaction(new InsufficientFundsTransaction(timestamp,
+                                        "Insufficient funds"));
                                 return;
                             }
 
                             if (account.getBalance() >= finalAmount) {
                                 account.setBalance(account.getBalance() - finalAmount);
                                 boolean found = false;
-                                for (final Commerciant userCommerciant : account.getCommerciants()) {
+                                for (final Commerciant userCommerciant
+                                        : account.getCommerciants()) {
                                     if (userCommerciant.getName().equalsIgnoreCase(commerciant)) {
                                         userCommerciant.addSpentAmount(finalAmount);
                                         found = true;
@@ -90,15 +101,22 @@ public class PayOnlineCommand implements CommandHandler {
                                     final Commerciant newCommerciant = new Commerciant(commerciant);
                                     newCommerciant.addSpentAmount(finalAmount);
                                     account.addCommerciant(newCommerciant);
-                                    account.addCommerciantTransaction(new CommerciantTransaction(newCommerciant.getName(), finalAmount, timestamp));
+                                    account.addCommerciantTransaction(new CommerciantTransaction(
+                                            newCommerciant.getName(), finalAmount, timestamp));
                                 }
-                                account.addTransaction(new CardPaymentTransaction(timestamp, description, finalAmount, commerciant, timestamp));
+                                account.addTransaction(new CardPaymentTransaction(
+                                        timestamp, description,
+                                        finalAmount, commerciant, timestamp));
                                 if (card.isOneTime()) {
-                                    account.addTransaction(new CardDestroyedTransaction(timestamp, "Card destroyed", account.getIBAN(), card.getCardNumber(), user.getEmail()));
+                                    account.addTransaction(new CardDestroyedTransaction(timestamp,
+                                            "Card destroyed", account.getAccountIBAN(),
+                                            card.getCardNumber(), user.getEmail()));
                                     account.removeCard(card);
                                     final Card newCard = new Card(Utils.generateCardNumber(), true);
                                     account.addCard(newCard);
-                                    account.addTransaction(new CardCreatedTransaction(timestamp, account.getIBAN(), newCard.getCardNumber(), user.getEmail()));
+                                    account.addTransaction(new CardCreatedTransaction(timestamp,
+                                            account.getAccountIBAN(), newCard.getCardNumber(),
+                                            user.getEmail()));
                                 }
                                 return;
                             }

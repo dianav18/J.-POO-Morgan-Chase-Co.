@@ -9,7 +9,7 @@ import org.poo.handlers.CommandHandler;
 
 import java.util.List;
 
-public class PrintUsersCommand implements CommandHandler {
+public final class PrintUsersCommand implements CommandHandler {
     private final List<User> users;
     private final int timestamp;
 
@@ -32,7 +32,7 @@ public class PrintUsersCommand implements CommandHandler {
             final ArrayNode accountsArray = objectMapper.createArrayNode();
             for (final Account account : user.getAccounts()) {
                 final ObjectNode accountNode = objectMapper.createObjectNode();
-                accountNode.put("IBAN", account.getIBAN());
+                accountNode.put("IBAN", account.getAccountIBAN());
                 accountNode.put("balance", account.getBalance());
                 accountNode.put("currency", account.getCurrency());
                 accountNode.put("type", account.getType());

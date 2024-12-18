@@ -7,7 +7,7 @@ import org.poo.handlers.CommandHandler;
 
 import java.util.List;
 
-public class DeleteCardCommand implements CommandHandler {
+public final class DeleteCardCommand implements CommandHandler {
     private final String cardNumber;
     private final int timestamp;
     private final List<User> users;
@@ -28,7 +28,7 @@ public class DeleteCardCommand implements CommandHandler {
                         account.addTransaction(new CardDestroyedTransaction(
                                 timestamp,
                                 "The card has been destroyed",
-                                account.getIBAN(),
+                                account.getAccountIBAN(),
                                 card.getCardNumber(),
                                 user.getEmail()
                         ));

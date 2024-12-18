@@ -11,14 +11,15 @@ import java.util.List;
 
 import org.poo.bankInput.transactions.CardCreatedTransaction;
 
-public class AddCardsCommand implements CommandHandler {
+public final class AddCardsCommand implements CommandHandler {
     private final String accountIBAN;
     private final String email;
     private final boolean isOneTime;
     private final int timestamp;
     private final List<User> users;
 
-    public AddCardsCommand(final String accountIBAN, final String email, final boolean isOneTime, final int timestamp, final List<User> users) {
+    public AddCardsCommand(final String accountIBAN, final String email,
+                           final boolean isOneTime, final int timestamp, final List<User> users) {
         this.accountIBAN = accountIBAN;
         this.email = email;
         this.isOneTime = isOneTime;
@@ -44,12 +45,12 @@ public class AddCardsCommand implements CommandHandler {
         for (final User user : users) {
             if (user.getEmail().equals(email)) {
                 for (final Account account : user.getAccounts()) {
-                    if (account.getIBAN().equals(accountIBAN)) {
-                        String cardNumber = null; // TODO
-                        cardNumber = Utils.generateCardNumber();
+                    if (account.getAccountIBAN().equals(accountIBAN)) {
+                        final String cardNumber = Utils.generateCardNumber();
                         final Card newCard = new Card(cardNumber, isOneTime);
                         account.addCard(newCard);
-                        account.addTransaction(new CardCreatedTransaction(timestamp, account.getIBAN(), cardNumber, user.getEmail()));
+                        account.addTransaction(new CardCreatedTransaction(timestamp,
+                                account.getAccountIBAN(), cardNumber, user.getEmail()));
                     }
                 }
             }
