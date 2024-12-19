@@ -79,7 +79,6 @@ organization.
     - `CurrencyConverter` handles multi-currency operations efficiently.
     - `AccountExtractor` and `TransactionExtractor` extract account and
       transaction details from the system.
-    - 
 ---
 
 ## Bank Flow
