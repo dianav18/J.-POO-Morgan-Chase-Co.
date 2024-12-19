@@ -3,29 +3,14 @@ package org.poo.main;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import org.poo.actions.SetAliasCommand;
-import org.poo.actions.SetMinBalanceCommand;
-import org.poo.actions.SplitPaymentCommand;
-import org.poo.actions.SpendingReportPrintCommand;
-import org.poo.actions.AddInterestCommand;
-import org.poo.actions.ChangeInterestRateCommand;
-import org.poo.actions.CheckCardStatusCommand;
-import org.poo.actions.DeleteAccountCommand;
-import org.poo.actions.DeleteCardCommand;
-import org.poo.actions.PayOnlineCommand;
-import org.poo.actions.PrintTransactionsCommand;
-import org.poo.actions.PrintUsersCommand;
-import org.poo.actions.ReportPrintCommand;
-import org.poo.actions.SendMoneyCommand;
-import org.poo.actions.AddAccountCommand;
-import org.poo.actions.AddCardsCommand;
-import org.poo.actions.AddFundsCommand;
 import org.poo.bankInput.Account;
 import org.poo.bankInput.ExchangeRate;
 import org.poo.handlers.CommandInvoker;
-import org.poo.handlers.UserMapper;
-import org.poo.handlers.ExchangeRateMapper;
+import org.poo.handlers.CommandLogicFactory;
+import org.poo.handlers.CommandHandler;
 import org.poo.handlers.CurrencyConverter;
+import org.poo.handlers.mappers.ExchangeRateMapper;
+import org.poo.handlers.mappers.UserMapper;
 import org.poo.handlers.AccountExtractor;
 import org.poo.bankInput.User;
 import org.poo.checker.Checker;
@@ -95,219 +80,33 @@ public final class Main {
      */
     public static void action(final String filePath1,
                               final String filePath2) throws IOException {
-        Utils.resetRandom();
-        final ObjectMapper objectMapper = new ObjectMapper();
-        final File file = new File(CheckerConstants.TESTS_PATH + filePath1);
-        final ObjectInput inputData = objectMapper.readValue(file, ObjectInput.class);
+            Utils.resetRandom();
+            final ObjectMapper objectMapper = new ObjectMapper();
+            final File file = new File(CheckerConstants.TESTS_PATH + filePath1);
+            final ObjectInput inputData = objectMapper.readValue(file, ObjectInput.class);
 
-        final CommandInvoker invoker = new CommandInvoker();
+            final CommandInvoker invoker = new CommandInvoker();
+            final List<User> users = UserMapper.mapToUsers(inputData.getUsers());
+            final ArrayNode output = objectMapper.createArrayNode();
 
-        final List<User> users = UserMapper.mapToUsers(inputData.getUsers());
-
-        final ArrayNode output = objectMapper.createArrayNode();
-
-        final List<ExchangeRate> exchangeRates = ExchangeRateMapper.mapToExchangeRates(
-                inputData.getExchangeRates());
-        final CurrencyConverter currencyConverter = new CurrencyConverter(exchangeRates);
-
-        final List<Account> accounts = AccountExtractor.extractAccountsFromUsers(users);
+            final List<ExchangeRate> exchangeRates
+                    = ExchangeRateMapper.mapToExchangeRates(inputData.getExchangeRates());
+            final CurrencyConverter currencyConverter = new CurrencyConverter(exchangeRates);
+            final List<Account> accounts = AccountExtractor.extractAccountsFromUsers(users);
 
         for (final CommandInput command : inputData.getCommands()) {
-
-            switch (command.getCommand()) {
-                case "printTransactions":
-                    final PrintTransactionsCommand printTransactionsCommand
-                            = new PrintTransactionsCommand(
-                            command.getEmail(),
-                            command.getTimestamp(),
-                            users
-                    );
-                    invoker.addCommand(printTransactionsCommand);
-                    invoker.executeCommands(output);
-                    break;
-                case "printUsers" :
-                    invoker.addCommand(new PrintUsersCommand(users, command.getTimestamp()));
-                    invoker.executeCommands(output);
-                    break;
-                case "addAccount" :
-                   final AddAccountCommand addAccountCommand = new AddAccountCommand(
-                           command.getEmail(),
-                           command.getCurrency(),
-                           command.getAccountType(),
-                           command.getInterestRate(),
-                           command.getTimestamp(),
-                           users);
-                    invoker.addCommand(addAccountCommand);
-                    invoker.executeCommands(output);
-                    break;
-                case "addFunds" :
-                    final AddFundsCommand addFundsCommand =  new AddFundsCommand(
-                            command.getAccount(),
-                            command.getAmount(),
-                            command.getTimestamp(),
-                            users);
-                    invoker.addCommand(addFundsCommand);
-                    invoker.executeCommands(output);
-                    break;
-                case "createCard" :
-                    final AddCardsCommand addCardsCommand =  new AddCardsCommand(
-                            command.getAccount(),
-                            command.getEmail(),
-                            false,
-                            command.getTimestamp(),
-                            users);
-                    invoker.addCommand(addCardsCommand);
-                    invoker.executeCommands(output);
-                    break;
-                case "createOneTimeCard" :
-                    final AddCardsCommand addOneTimeCards = new AddCardsCommand(
-                            command.getAccount(),
-                            command.getEmail(),
-                            true,
-                            command.getTimestamp(),
-                            users);
-                    invoker.addCommand(addOneTimeCards);
-                    invoker.executeCommands(output);
-                    break;
-                case "deleteAccount" :
-                    final DeleteAccountCommand deleteAccountCommand = new DeleteAccountCommand(
-                            command.getAccount(),
-                            command.getTimestamp(),
-                            command.getEmail(),
-                            users);
-                    invoker.addCommand(deleteAccountCommand);
-                    invoker.executeCommands(output);
-                    break;
-                case "deleteCard" :
-                   final DeleteCardCommand deleteCardCommand = new DeleteCardCommand(
-                            command.getCardNumber(),
-                            command.getTimestamp(),
-                            users);
-                   invoker.addCommand(deleteCardCommand);
-                   invoker.executeCommands(output);
-                    break;
-                case "payOnline" :
-                    final PayOnlineCommand payOnline = new PayOnlineCommand(
-                            command.getCardNumber(),
-                            command.getAmount(),
-                            command.getCurrency(),
-                            command.getTimestamp(),
-                            command.getDescription(),
-                            command.getCommerciant(),
-                            command.getEmail(),
-                            users,
-                            currencyConverter
-                    );
-                    invoker.addCommand(payOnline);
-                    invoker.executeCommands(output);
-                    break;
-                case "sendMoney" :
-                    final SendMoneyCommand sendMoney = new SendMoneyCommand(
-                            command.getAccount(),
-                            command.getAmount(),
-                            command.getReceiver(),
-                            command.getTimestamp(),
-                            command.getDescription(),
-                            accounts,
-                            currencyConverter,
-                            users
-                    );
-
-                    invoker.addCommand(sendMoney);
-                    invoker.executeCommands(output);
-                    break;
-                case "setAlias" :
-                    final SetAliasCommand setAlias = new SetAliasCommand(
-                            command.getEmail(),
-                            command.getAlias(),
-                            command.getAccount(),
-                            users);
-                    invoker.addCommand(setAlias);
-                    invoker.executeCommands(output);
-                    break;
-                case "setMinBalance" :
-                    final SetMinBalanceCommand setMinBalance = new SetMinBalanceCommand(
-                            command.getAmount(),
-                            command.getAccount(),
-                            command.getTimestamp(),
-                            users
-                    );
-                    invoker.addCommand(setMinBalance);
-                    invoker.executeCommands(output);
-                    break;
-                case "checkCardStatus" :
-                    final CheckCardStatusCommand checkCardStatus = new CheckCardStatusCommand(
-                            command.getCardNumber(),
-                            command.getTimestamp(),
-                            users
-                    );
-                    invoker.addCommand(checkCardStatus);
-                    invoker.executeCommands(output);
-                    break;
-                case "splitPayment" :
-                    final SplitPaymentCommand splitPayment = new SplitPaymentCommand(
-                            command.getAccounts(),
-                            command.getTimestamp(),
-                            command.getCurrency(),
-                            command.getAmount(),
-                            users,
-                            currencyConverter
-                    );
-                    invoker.addCommand(splitPayment);
-                    invoker.executeCommands(output);
-                    break;
-                case "report" :
-                    final ReportPrintCommand reportPrintCommand = new ReportPrintCommand(
-                            command.getStartTimestamp(),
-                            command.getEndTimestamp(),
-                            command.getAccount(),
-                            command.getTimestamp(),
-                            users
-                    );
-                    invoker.addCommand(reportPrintCommand);
-                    invoker.executeCommands(output);
-                    break;
-                case "spendingsReport" :
-                    final SpendingReportPrintCommand spendingReportPrintCommand
-                            = new SpendingReportPrintCommand(
-                            command.getStartTimestamp(),
-                            command.getEndTimestamp(),
-                            command.getAccount(),
-                            command.getTimestamp(),
-                            users
-                    );
-                    invoker.addCommand(spendingReportPrintCommand);
-                    invoker.executeCommands(output);
-                    break;
-                case "addInterest" :
-                    final AddInterestCommand addInterestCommand = new AddInterestCommand(
-                            command.getTimestamp(),
-                            command.getAccount(),
-                            command.getInterestRate(),
-                            users
-                    );
-                    invoker.addCommand(addInterestCommand);
-                    invoker.executeCommands(output);
-                    break;
-                case "changeInterestRate" :
-                    final ChangeInterestRateCommand changeInterestRateCommand
-                            = new ChangeInterestRateCommand(
-                            command.getAccount(),
-                            command.getInterestRate(),
-                            command.getTimestamp(),
-                            users
-                    );
-                    invoker.addCommand(changeInterestRateCommand);
-                    invoker.executeCommands(output);
-                    break;
-                default:
-                    break;
+            final CommandHandler commandInstance
+                    = CommandLogicFactory.getCommandLogic(
+                            command, users, accounts, currencyConverter);
+            if (commandInstance != null) {
+                invoker.addCommand(commandInstance);
+                invoker.executeCommands(output);
             }
         }
 
-        final ObjectWriter objectWriter = objectMapper.writerWithDefaultPrettyPrinter();
-        objectWriter.writeValue(new File(filePath2), output);
-    }
+            final ObjectWriter objectWriter = objectMapper.writerWithDefaultPrettyPrinter();
+            objectWriter.writeValue(new File(filePath2), output);
+        }
 
     /**
      * Method used for extracting the test number from the file name.

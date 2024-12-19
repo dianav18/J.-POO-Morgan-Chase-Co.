@@ -1,4 +1,4 @@
-package org.poo.handlers;
+package org.poo.handlers.mappers;
 
 import org.poo.bankInput.ExchangeRate;
 import org.poo.fileio.ExchangeInput;
