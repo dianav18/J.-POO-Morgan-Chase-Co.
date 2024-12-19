@@ -11,12 +11,23 @@ import org.poo.handlers.CommandHandler;
 
 import java.util.List;
 
+/**
+ * The type Delete account command.
+ */
 public final class DeleteAccountCommand implements CommandHandler {
     private final String accountIBAN;
     private final int timestamp;
     private final String email;
     private final List<User> users;
 
+    /**
+     * Instantiates a new Delete account command.
+     *
+     * @param accountIBAN the account iban
+     * @param timestamp   the timestamp
+     * @param email       the email
+     * @param users       the users
+     */
     public DeleteAccountCommand(final String accountIBAN, final int timestamp,
                                 final String email, final List<User> users) {
         this.accountIBAN = accountIBAN;

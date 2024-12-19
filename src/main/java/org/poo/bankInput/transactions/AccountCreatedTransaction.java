@@ -1,6 +1,14 @@
 package org.poo.bankInput.transactions;
 
-public class AccountCreatedTransaction extends Transaction {
+/**
+ * The type Account created transaction.
+ */
+public final class AccountCreatedTransaction extends Transaction {
+    /**
+     * Instantiates a new Account created transaction.
+     *
+     * @param timestamp the timestamp
+     */
     public AccountCreatedTransaction(final int timestamp) {
         super(timestamp, "New account created");
     }

@@ -18,6 +18,9 @@ import org.poo.utils.Utils;
 
 import java.util.List;
 
+/**
+ * The type Pay online command.
+ */
 public final class PayOnlineCommand implements CommandHandler {
     private final String cardNumber;
     private final double amount;
@@ -29,6 +32,19 @@ public final class PayOnlineCommand implements CommandHandler {
     private final List<User> users;
     private final CurrencyConverter currencyConverter;
 
+    /**
+     * Instantiates a new Pay online command.
+     *
+     * @param cardNumber        the card number
+     * @param amount            the amount
+     * @param currency          the currency
+     * @param timestamp         the timestamp
+     * @param description       the description
+     * @param commerciant       the commerciant
+     * @param email             the email
+     * @param users             the users
+     * @param currencyConverter the currency converter
+     */
     public PayOnlineCommand(final String cardNumber, final double amount, final String currency,
                             final int timestamp, final String description,
                             final String commerciant, final String email,

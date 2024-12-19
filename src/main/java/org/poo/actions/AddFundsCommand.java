@@ -6,12 +6,23 @@ import org.poo.handlers.CommandHandler;
 
 import java.util.List;
 
+/**
+ * The type Add funds command.
+ */
 public final class AddFundsCommand implements CommandHandler {
     private final String account;
     private final double amount;
     private final int timestamp;
     private final List<User> users;
 
+    /**
+     * Instantiates a new Add funds command.
+     *
+     * @param account   the account
+     * @param amount    the amount
+     * @param timestamp the timestamp
+     * @param users     the users
+     */
     public AddFundsCommand(final String account, final double amount,
                            final int timestamp, final List<User> users) {
         this.account = account;

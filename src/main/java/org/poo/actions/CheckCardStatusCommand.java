@@ -10,11 +10,21 @@ import org.poo.handlers.CommandHandler;
 
 import java.util.List;
 
+/**
+ * The type Check card status command.
+ */
 public final class CheckCardStatusCommand implements CommandHandler {
     private final String cardNumber;
     private final int timestamp;
     private final List<User> users;
 
+    /**
+     * Instantiates a new Check card status command.
+     *
+     * @param cardNumber the card number
+     * @param timestamp  the timestamp
+     * @param users      the users
+     */
     public CheckCardStatusCommand(final String cardNumber, final int timestamp,
                                   final List<User> users) {
         this.cardNumber = cardNumber;

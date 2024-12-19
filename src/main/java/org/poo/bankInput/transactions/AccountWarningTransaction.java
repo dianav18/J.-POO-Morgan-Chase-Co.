@@ -1,7 +1,16 @@
 package org.poo.bankInput.transactions;
 
-public class AccountWarningTransaction extends Transaction {
+/**
+ * The type Account warning transaction.
+ */
+public final class AccountWarningTransaction extends Transaction {
 
+    /**
+     * Instantiates a new Account warning transaction.
+     *
+     * @param timestamp   the timestamp
+     * @param description the description
+     */
     public AccountWarningTransaction(final int timestamp, final String description) {
         super(timestamp, description);
     }

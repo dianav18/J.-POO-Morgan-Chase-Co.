@@ -11,6 +11,9 @@ import java.util.List;
 
 import org.poo.bankInput.transactions.CardCreatedTransaction;
 
+/**
+ * The type Add cards command.
+ */
 public final class AddCardsCommand implements CommandHandler {
     private final String accountIBAN;
     private final String email;
@@ -18,6 +21,15 @@ public final class AddCardsCommand implements CommandHandler {
     private final int timestamp;
     private final List<User> users;
 
+    /**
+     * Instantiates a new Add cards command.
+     *
+     * @param accountIBAN the account iban
+     * @param email       the email
+     * @param isOneTime   the is one time
+     * @param timestamp   the timestamp
+     * @param users       the users
+     */
     public AddCardsCommand(final String accountIBAN, final String email,
                            final boolean isOneTime, final int timestamp, final List<User> users) {
         this.accountIBAN = accountIBAN;

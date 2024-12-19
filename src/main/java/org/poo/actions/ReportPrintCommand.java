@@ -12,6 +12,9 @@ import org.poo.handlers.CommandHandler;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The type Report print command.
+ */
 public final class ReportPrintCommand implements CommandHandler {
     private final int startTimestamp;
     private final int endTimestamp;
@@ -20,6 +23,15 @@ public final class ReportPrintCommand implements CommandHandler {
     private List<Transaction> transactions;
     private final List<User> users;
 
+    /**
+     * Instantiates a new Report print command.
+     *
+     * @param startTimestamp the start timestamp
+     * @param endTimestamp   the end timestamp
+     * @param accountIBAN    the account iban
+     * @param timestamp      the timestamp
+     * @param users          the users
+     */
     public ReportPrintCommand(final int startTimestamp, final int endTimestamp,
                               final String accountIBAN, final int timestamp,
                               final List<User> users) {

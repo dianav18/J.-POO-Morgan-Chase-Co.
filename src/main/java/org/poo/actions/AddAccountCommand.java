@@ -11,6 +11,9 @@ import org.poo.utils.Utils;
 
 import java.util.List;
 
+/**
+ * The type Add account command.
+ */
 public final class AddAccountCommand implements CommandHandler {
     private final String email;
     private final String currency;
@@ -19,6 +22,16 @@ public final class AddAccountCommand implements CommandHandler {
     private final int timestamp;
     private final List<User> users;
 
+    /**
+     * Instantiates a new Add account command.
+     *
+     * @param email        the email
+     * @param currency     the currency
+     * @param accountType  the account type
+     * @param interestRate the interest rate
+     * @param timestamp    the timestamp
+     * @param users        the users
+     */
     public AddAccountCommand(final String email, final String currency,
                              final String accountType, final double interestRate,
                              final int timestamp, final List<User> users) {

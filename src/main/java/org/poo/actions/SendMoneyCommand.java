@@ -11,6 +11,9 @@ import org.poo.handlers.CurrencyConverter;
 
 import java.util.List;
 
+/**
+ * The type Send money command.
+ */
 public final class SendMoneyCommand implements CommandHandler {
     private final String senderIBAN;
     private final double amount;
@@ -24,6 +27,18 @@ public final class SendMoneyCommand implements CommandHandler {
     private final List<User> users;
 
 
+    /**
+     * Instantiates a new Send money command.
+     *
+     * @param senderIBAN        the sender iban
+     * @param amount            the amount
+     * @param receiverIBAN      the receiver iban
+     * @param timestamp         the timestamp
+     * @param description       the description
+     * @param accounts          the accounts
+     * @param currencyConverter the currency converter
+     * @param users             the users
+     */
     public SendMoneyCommand(final String senderIBAN, final double amount,
                             final String receiverIBAN, final int timestamp,
                             final String description, final List<Account> accounts,

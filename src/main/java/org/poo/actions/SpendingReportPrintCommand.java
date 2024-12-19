@@ -16,6 +16,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Comparator;
 
+/**
+ * The type Spending report print command.
+ */
 public final class SpendingReportPrintCommand implements CommandHandler {
     private final int startTimestamp;
     private final int endTimestamp;
@@ -27,6 +30,15 @@ public final class SpendingReportPrintCommand implements CommandHandler {
 
     private Account account;
 
+    /**
+     * Instantiates a new Spending report print command.
+     *
+     * @param startTimestamp the start timestamp
+     * @param endTimestamp   the end timestamp
+     * @param accountIBAN    the account iban
+     * @param timestamp      the timestamp
+     * @param users          the users
+     */
     public SpendingReportPrintCommand(final int startTimestamp, final int endTimestamp,
                                       final String accountIBAN, final int timestamp,
                                       final List<User> users) {

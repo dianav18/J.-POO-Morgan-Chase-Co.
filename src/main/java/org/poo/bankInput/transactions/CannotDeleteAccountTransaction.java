@@ -1,6 +1,15 @@
 package org.poo.bankInput.transactions;
 
-public class CannotDeleteAccountTransaction extends Transaction {
+/**
+ * The type Cannot delete account transaction.
+ */
+public final class CannotDeleteAccountTransaction extends Transaction {
+    /**
+     * Instantiates a new Cannot delete account transaction.
+     *
+     * @param timestamp   the timestamp
+     * @param description the description
+     */
     public CannotDeleteAccountTransaction(final int timestamp, final String description) {
         super(timestamp, description);
     }

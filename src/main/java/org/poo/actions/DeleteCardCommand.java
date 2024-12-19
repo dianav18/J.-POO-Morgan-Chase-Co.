@@ -7,11 +7,21 @@ import org.poo.handlers.CommandHandler;
 
 import java.util.List;
 
+/**
+ * The type Delete card command.
+ */
 public final class DeleteCardCommand implements CommandHandler {
     private final String cardNumber;
     private final int timestamp;
     private final List<User> users;
 
+    /**
+     * Instantiates a new Delete card command.
+     *
+     * @param cardNumber the card number
+     * @param timestamp  the timestamp
+     * @param users      the users
+     */
     public DeleteCardCommand(final String cardNumber, final int timestamp, final List<User> users) {
         this.cardNumber = cardNumber;
         this.timestamp = timestamp;

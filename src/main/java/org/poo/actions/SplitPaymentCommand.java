@@ -9,6 +9,9 @@ import org.poo.handlers.CurrencyConverter;
 
 import java.util.List;
 
+/**
+ * The type Split payment command.
+ */
 public final class SplitPaymentCommand implements CommandHandler {
     private final List<String> accountsForSplit;
     private final int timestamp;
@@ -17,6 +20,16 @@ public final class SplitPaymentCommand implements CommandHandler {
     private final List<User> users;
     private final CurrencyConverter currencyConverter;
 
+    /**
+     * Instantiates a new Split payment command.
+     *
+     * @param accountsForSplit  the accounts for split
+     * @param timestamp         the timestamp
+     * @param currency          the currency
+     * @param amount            the amount
+     * @param users             the users
+     * @param currencyConverter the currency converter
+     */
     public SplitPaymentCommand(final List<String> accountsForSplit,
                                final int timestamp, final String currency,
                                final double amount, final List<User> users,

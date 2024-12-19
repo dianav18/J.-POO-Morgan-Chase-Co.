@@ -9,6 +9,9 @@ import org.poo.handlers.CommandHandler;
 
 import java.util.List;
 
+/**
+ * The type Change interest rate command.
+ */
 public final class ChangeInterestRateCommand implements CommandHandler {
     private final String accountIBAN;
     private final double newInterestRate;
@@ -16,6 +19,14 @@ public final class ChangeInterestRateCommand implements CommandHandler {
 
     private final List<User> users;
 
+    /**
+     * Instantiates a new Change interest rate command.
+     *
+     * @param accountIBAN     the account iban
+     * @param newInterestRate the new interest rate
+     * @param timestamp       the timestamp
+     * @param users           the users
+     */
     public ChangeInterestRateCommand(final String accountIBAN, final double newInterestRate,
                                      final int timestamp, final List<User> users) {
         this.accountIBAN = accountIBAN;

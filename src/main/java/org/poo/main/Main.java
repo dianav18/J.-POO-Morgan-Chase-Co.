@@ -3,18 +3,36 @@ package org.poo.main;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import org.poo.actions.*;
+import org.poo.actions.SetAliasCommand;
+import org.poo.actions.SetMinBalanceCommand;
+import org.poo.actions.SplitPaymentCommand;
+import org.poo.actions.SpendingReportPrintCommand;
+import org.poo.actions.AddInterestCommand;
+import org.poo.actions.ChangeInterestRateCommand;
+import org.poo.actions.CheckCardStatusCommand;
+import org.poo.actions.DeleteAccountCommand;
+import org.poo.actions.DeleteCardCommand;
+import org.poo.actions.PayOnlineCommand;
+import org.poo.actions.PrintTransactionsCommand;
+import org.poo.actions.PrintUsersCommand;
+import org.poo.actions.ReportPrintCommand;
+import org.poo.actions.SendMoneyCommand;
+import org.poo.actions.AddAccountCommand;
+import org.poo.actions.AddCardsCommand;
+import org.poo.actions.AddFundsCommand;
 import org.poo.bankInput.Account;
-//import org.poo.bankInput.Commerciants;
 import org.poo.bankInput.ExchangeRate;
-import org.poo.handlers.*;
+import org.poo.handlers.CommandInvoker;
+import org.poo.handlers.UserMapper;
+import org.poo.handlers.ExchangeRateMapper;
+import org.poo.handlers.CurrencyConverter;
+import org.poo.handlers.AccountExtractor;
 import org.poo.bankInput.User;
 import org.poo.checker.Checker;
 import org.poo.checker.CheckerConstants;
 import org.poo.fileio.CommandInput;
 import org.poo.fileio.ObjectInput;
 import org.poo.utils.Utils;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -88,19 +106,18 @@ public final class Main {
 
         final ArrayNode output = objectMapper.createArrayNode();
 
-        final List<ExchangeRate> exchangeRates = ExchangeRateMapper.mapToExchangeRates(inputData.getExchangeRates());
+        final List<ExchangeRate> exchangeRates = ExchangeRateMapper.mapToExchangeRates(
+                inputData.getExchangeRates());
         final CurrencyConverter currencyConverter = new CurrencyConverter(exchangeRates);
 
         final List<Account> accounts = AccountExtractor.extractAccountsFromUsers(users);
 
-        //final List<Commerciants> commerciantsList = Commerciants.fromInputList(CommerciantInput.getCommerciants());
-
-
         for (final CommandInput command : inputData.getCommands()) {
 
-            switch(command.getCommand()) {
+            switch (command.getCommand()) {
                 case "printTransactions":
-                    final PrintTransactionsCommand printTransactionsCommand = new PrintTransactionsCommand(
+                    final PrintTransactionsCommand printTransactionsCommand
+                            = new PrintTransactionsCommand(
                             command.getEmail(),
                             command.getTimestamp(),
                             users
@@ -251,7 +268,8 @@ public final class Main {
                     invoker.executeCommands(output);
                     break;
                 case "spendingsReport" :
-                    final SpendingReportPrintCommand spendingReportPrintCommand = new SpendingReportPrintCommand(
+                    final SpendingReportPrintCommand spendingReportPrintCommand
+                            = new SpendingReportPrintCommand(
                             command.getStartTimestamp(),
                             command.getEndTimestamp(),
                             command.getAccount(),
@@ -272,7 +290,8 @@ public final class Main {
                     invoker.executeCommands(output);
                     break;
                 case "changeInterestRate" :
-                    final ChangeInterestRateCommand changeInterestRateCommand = new ChangeInterestRateCommand(
+                    final ChangeInterestRateCommand changeInterestRateCommand
+                            = new ChangeInterestRateCommand(
                             command.getAccount(),
                             command.getInterestRate(),
                             command.getTimestamp(),
@@ -280,6 +299,8 @@ public final class Main {
                     );
                     invoker.addCommand(changeInterestRateCommand);
                     invoker.executeCommands(output);
+                    break;
+                default:
                     break;
             }
         }

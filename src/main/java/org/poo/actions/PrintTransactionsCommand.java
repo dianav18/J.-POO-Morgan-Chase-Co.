@@ -9,11 +9,21 @@ import org.poo.handlers.CommandHandler;
 
 import java.util.List;
 
+/**
+ * The type Print transactions command.
+ */
 public final class PrintTransactionsCommand implements CommandHandler {
     private final String email;
     private final int timestamp;
     private final List<User> users;
 
+    /**
+     * Instantiates a new Print transactions command.
+     *
+     * @param email     the email
+     * @param timestamp the timestamp
+     * @param users     the users
+     */
     public PrintTransactionsCommand(final String email, final int timestamp,
                                     final List<User> users) {
         this.email = email;

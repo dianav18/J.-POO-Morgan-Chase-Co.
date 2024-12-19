@@ -2,14 +2,29 @@ package org.poo.bankInput.transactions;
 
 import lombok.Getter;
 
+/**
+ * The type Received transaction.
+ */
 @Getter
-public class ReceivedTransaction extends Transaction {
+public final class ReceivedTransaction extends Transaction {
     private final String senderIBAN;
     private final String receiverIBAN;
     private final double amount;
     private final String currency;
 
-    public ReceivedTransaction(final int timestamp, final String description, final String senderIBAN, final String receiverIBAN, final double amount, final String currency) {
+    /**
+     * Instantiates a new Received transaction.
+     *
+     * @param timestamp    the timestamp
+     * @param description  the description
+     * @param senderIBAN   the sender iban
+     * @param receiverIBAN the receiver iban
+     * @param amount       the amount
+     * @param currency     the currency
+     */
+    public ReceivedTransaction(final int timestamp, final String description,
+                               final String senderIBAN, final String receiverIBAN,
+                               final double amount, final String currency) {
         super(timestamp, description);
         this.senderIBAN = senderIBAN;
         this.receiverIBAN = receiverIBAN;

@@ -6,7 +6,22 @@ import org.poo.fileio.UserInput;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserMapper {
+/**
+ * The type User mapper.
+ */
+public final class UserMapper {
+    /**
+     * Private constructor to prevent instantiation.
+     */
+    private UserMapper() {
+        throw new UnsupportedOperationException("Utility class");
+    }
+    /**
+     * Map to users list.
+     *
+     * @param userInputs the user inputs
+     * @return the list
+     */
     public static List<User> mapToUsers(final UserInput[] userInputs) {
         final List<User> users = new ArrayList<>();
         if (userInputs != null) {

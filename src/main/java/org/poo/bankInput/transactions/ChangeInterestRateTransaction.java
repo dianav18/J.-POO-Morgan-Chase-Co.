@@ -2,13 +2,22 @@ package org.poo.bankInput.transactions;
 
 import lombok.Getter;
 
+/**
+ * The type Change interest rate transaction.
+ */
 @Getter
-public class ChangeInterestRateTransaction extends Transaction {
-    //private final String accountIBAN;
+public final class ChangeInterestRateTransaction extends Transaction {
     private final double interestRate;
-    //private final String description;
 
-    public ChangeInterestRateTransaction(final int timestamp, final double interestRate, final String description) {
+    /**
+     * Instantiates a new Change interest rate transaction.
+     *
+     * @param timestamp    the timestamp
+     * @param interestRate the interest rate
+     * @param description  the description
+     */
+    public ChangeInterestRateTransaction(final int timestamp, final double interestRate,
+                                         final String description) {
         super(timestamp, description);
         //this.accountIBAN = accountIBAN;
         this.interestRate = interestRate;

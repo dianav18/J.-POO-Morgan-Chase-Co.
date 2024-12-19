@@ -1,6 +1,15 @@
 package org.poo.bankInput.transactions;
 
-public class CardFrozenTransaction extends Transaction {
+/**
+ * The type Card frozen transaction.
+ */
+public final class CardFrozenTransaction extends Transaction {
+    /**
+     * Instantiates a new Card frozen transaction.
+     *
+     * @param timestamp   the timestamp
+     * @param description the description
+     */
     public CardFrozenTransaction(final int timestamp, final String description) {
         super(timestamp, description);
     }

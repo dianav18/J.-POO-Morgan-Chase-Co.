@@ -6,6 +6,9 @@ import org.poo.handlers.CommandHandler;
 
 import java.util.List;
 
+/**
+ * The type Set min balance command.
+ */
 public final class SetMinBalanceCommand implements CommandHandler {
     private final double amount;
     private final String accountIBAN;
@@ -13,6 +16,14 @@ public final class SetMinBalanceCommand implements CommandHandler {
 
     private List<User> users;
 
+    /**
+     * Instantiates a new Set min balance command.
+     *
+     * @param amount      the amount
+     * @param accountIBAN the account iban
+     * @param timestamp   the timestamp
+     * @param users       the users
+     */
     public SetMinBalanceCommand(final double amount, final String accountIBAN,
                                 final int timestamp, final List<User> users) {
         this.amount = amount;

@@ -6,9 +6,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * The type Currency converter.
+ */
 public class CurrencyConverter {
     private final Map<String, Double> conversionRates;
 
+    /**
+     * Instantiates a new Currency converter.
+     *
+     * @param exchangeRates the exchange rates
+     */
     public CurrencyConverter(final List<ExchangeRate> exchangeRates) {
         this.conversionRates = new HashMap<>();
 
@@ -27,6 +35,14 @@ public class CurrencyConverter {
         }
     }
 
+    /**
+     * Convert double.
+     *
+     * @param amount the amount
+     * @param from   the from
+     * @param to     the to
+     * @return the double
+     */
     public double convert(final double amount, final String from, final String to) {
         if (from.equals(to)) {
             return amount;

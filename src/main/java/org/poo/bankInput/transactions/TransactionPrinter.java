@@ -3,9 +3,17 @@ package org.poo.bankInput.transactions;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-public class TransactionPrinter implements TransactionVisitor {
+/**
+ * The type Transaction printer.
+ */
+public final class TransactionPrinter implements TransactionVisitor {
     private final ArrayNode output;
 
+    /**
+     * Instantiates a new Transaction printer.
+     *
+     * @param output the output
+     */
     public TransactionPrinter(final ArrayNode output) {
         this.output = output;
     }
@@ -74,7 +82,8 @@ public class TransactionPrinter implements TransactionVisitor {
     @Override
     public void visit(final AccountWarningTransaction accountWaringTransaction) {
         final ObjectNode node = output.addObject();
-        node.put("description", "You have reached the minimum amount of funds, the card will be frozen");
+        node.put("description",
+                "You have reached the minimum amount of funds, the card will be frozen");
         node.put("timestamp", accountWaringTransaction.getTimestamp());
     }
 
@@ -88,7 +97,9 @@ public class TransactionPrinter implements TransactionVisitor {
 
         if (splitPaymentTransaction.isShowError()) {
            // System.out.println("here");
-            node.put("error", "Account " + splitPaymentTransaction.getProblematicAccountIBAN() + " has insufficient funds for a split payment.");
+            node.put("error", "Account "
+                    + splitPaymentTransaction.getProblematicAccountIBAN()
+                    + " has insufficient funds for a split payment.");
         }
 
         final ArrayNode involvedAccountsNode = node.putArray("involvedAccounts");
@@ -113,7 +124,8 @@ public class TransactionPrinter implements TransactionVisitor {
     public void visit(final ReceivedTransaction receivedTransaction) {
             final ObjectNode node = output.addObject();
             node.put("description", receivedTransaction.getDescription());
-            node.put("amount", receivedTransaction.getAmount() + " " + receivedTransaction.getCurrency());
+            node.put("amount", receivedTransaction.getAmount()
+                    + " " + receivedTransaction.getCurrency());
             node.put("senderIBAN", receivedTransaction.getSenderIBAN());
             node.put("receiverIBAN", receivedTransaction.getReceiverIBAN());
             node.put("timestamp", receivedTransaction.getTimestamp());
