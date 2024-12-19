@@ -5,7 +5,11 @@ import lombok.Getter;
 import java.util.List;
 
 /**
- * The type Split payment transaction.
+ * This transaction is used to process a split payment.
+ * This transaction includes details about the currency,
+ * the accounts involved, the amount per account, and the total amount.
+ * If an error occurs during the transaction, the transaction will include
+ * details about the problematic account.
  */
 @Getter
 public final class SplitPaymentTransaction extends Transaction {
@@ -20,13 +24,13 @@ public final class SplitPaymentTransaction extends Transaction {
     /**
      * Instantiates a new Split payment transaction.
      *
-     * @param timestamp              the timestamp
-     * @param currency               the currency
-     * @param involvedAccounts       the involved accounts
-     * @param amount                 the amount
-     * @param totalAmount            the total amount
-     * @param showError              the show error
-     * @param problematicAccountIBAN the problematic account iban
+     * @param timestamp              the timestamp of the transaction
+     * @param currency               the currency of the transaction
+     * @param involvedAccounts       the involved accounts in the transaction
+     * @param amount                 the amount per account
+     * @param totalAmount            the total amount of the transaction
+     * @param showError              the show error flag
+     * @param problematicAccountIBAN the problematic account iban in case of error
      */
     public SplitPaymentTransaction(final int timestamp, final String currency,
                                    final List<String> involvedAccounts,
@@ -42,6 +46,11 @@ public final class SplitPaymentTransaction extends Transaction {
         this.problematicAccountIBAN = problematicAccountIBAN;
     }
 
+    /**
+     * Accepts a {@link TransactionVisitor} to process this transaction type.
+     *
+     * @param visitor the visitor object that processes the transaction.
+     */
     @Override
     public void accept(final TransactionVisitor visitor) {
         visitor.visit(this);

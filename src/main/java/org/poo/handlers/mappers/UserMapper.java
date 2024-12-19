@@ -8,6 +8,7 @@ import java.util.List;
 
 /**
  * The type User mapper.
+ * It maps the users from the user inputs.
  */
 public final class UserMapper {
     /**
@@ -19,8 +20,8 @@ public final class UserMapper {
     /**
      * Map to users list.
      *
-     * @param userInputs the user inputs
-     * @return the list
+     * @param userInputs the user inputs array
+     * @return the list of users
      */
     public static List<User> mapToUsers(final UserInput[] userInputs) {
         final List<User> users = new ArrayList<>();

@@ -8,7 +8,7 @@ import org.poo.handlers.CommandHandler;
 import java.util.List;
 
 /**
- * The type Set alias command.
+ * It sets an alias to a user's account.
  */
 public final class SetAliasCommand implements CommandHandler {
     private final String email;
@@ -20,9 +20,9 @@ public final class SetAliasCommand implements CommandHandler {
     /**
      * Instantiates a new Set alias command.
      *
-     * @param email       the email
-     * @param alias       the alias
-     * @param accountIBAN the account iban
+     * @param email       the email of the user
+     * @param alias       the alias to be set
+     * @param accountIBAN the account iban for which the alias is set
      * @param users       the users
      */
     public SetAliasCommand(final String email, final String alias,
@@ -32,7 +32,6 @@ public final class SetAliasCommand implements CommandHandler {
         this.accountIBAN = accountIBAN;
         this.users = users;
     }
-
 
     @Override
     public void execute(final ArrayNode output) {

@@ -3,7 +3,8 @@ package org.poo.bankInput.transactions;
 import lombok.Getter;
 
 /**
- * The type Change interest rate transaction.
+ * Represents a transaction that changes the interest rate of an account.
+ * This transaction includes details about the new interest rate and a description of the change.
  */
 @Getter
 public final class ChangeInterestRateTransaction extends Transaction {
@@ -12,18 +13,22 @@ public final class ChangeInterestRateTransaction extends Transaction {
     /**
      * Instantiates a new Change interest rate transaction.
      *
-     * @param timestamp    the timestamp
-     * @param interestRate the interest rate
-     * @param description  the description
+     * @param timestamp    the timestamp of the transaction,
+     *                     indicating when the interest rate change occurred.
+     * @param interestRate the new interest rate applied to the account.
+     * @param description  a description of the interest rate change.
      */
     public ChangeInterestRateTransaction(final int timestamp, final double interestRate,
                                          final String description) {
         super(timestamp, description);
-        //this.accountIBAN = accountIBAN;
         this.interestRate = interestRate;
-        //this.description = description;
     }
 
+    /**
+     * Accepts a {@link TransactionVisitor} to process this transaction type.
+     *
+     * @param visitor the visitor object that processes the transaction.
+     */
     @Override
     public void accept(final TransactionVisitor visitor) {
         visitor.visit(this);

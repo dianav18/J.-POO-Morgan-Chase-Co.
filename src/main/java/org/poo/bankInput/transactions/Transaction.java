@@ -3,7 +3,7 @@ package org.poo.bankInput.transactions;
 import lombok.Getter;
 
 /**
- * The type Transaction.
+ * Represents a transaction that occurs in the bank.
  */
 @Getter
 public abstract class Transaction {
@@ -13,8 +13,8 @@ public abstract class Transaction {
     /**
      * Instantiates a new Transaction.
      *
-     * @param timestamp   the timestamp
-     * @param description the description
+     * @param timestamp   the timestamp of the transaction
+     * @param description the description of the transaction
      */
     public Transaction(final int timestamp, final String description) {
         this.timestamp = timestamp;

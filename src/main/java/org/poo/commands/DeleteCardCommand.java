@@ -8,7 +8,7 @@ import org.poo.handlers.CommandHandler;
 import java.util.List;
 
 /**
- * The type Delete card command.
+ * It deletes a card from an account of a user.
  */
 public final class DeleteCardCommand implements CommandHandler {
     private final String cardNumber;

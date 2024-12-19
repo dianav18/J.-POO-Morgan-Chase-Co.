@@ -8,6 +8,7 @@ import java.util.List;
 
 /**
  * The type Exchange rate mapper.
+ * It maps the exchange rates from the exchange inputs.
  */
 public final class ExchangeRateMapper {
     /**
@@ -19,8 +20,8 @@ public final class ExchangeRateMapper {
     /**
      * Map to exchange rates list.
      *
-     * @param exchangeInputs the exchange inputs
-     * @return the list
+     * @param exchangeInputs the exchange inputs array
+     * @return the list of exchange rates
      */
     public static List<ExchangeRate> mapToExchangeRates(final ExchangeInput[] exchangeInputs) {
         final List<ExchangeRate> exchangeRates = new ArrayList<>();

@@ -7,7 +7,10 @@ import org.poo.handlers.CommandHandler;
 import java.util.List;
 
 /**
- * The type Set min balance command.
+ * It sets a minimum balance to an account, which is used to check if the account
+ * has enough money to perform a transaction.
+ * It implements the CommandHandler interface.
+ * It contains the amount, account IBAN, timestamp and users.
  */
 public final class SetMinBalanceCommand implements CommandHandler {
     private final double amount;
@@ -19,9 +22,9 @@ public final class SetMinBalanceCommand implements CommandHandler {
     /**
      * Instantiates a new Set min balance command.
      *
-     * @param amount      the amount
-     * @param accountIBAN the account iban
-     * @param timestamp   the timestamp
+     * @param amount      the amount to be set
+     * @param accountIBAN the account iban for which the min balance is set
+     * @param timestamp   the timestamp at which the min balance is set
      * @param users       the users
      */
     public SetMinBalanceCommand(final double amount, final String accountIBAN,

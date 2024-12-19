@@ -2,26 +2,27 @@ package org.poo.bankInput.transactions;
 
 /**
  * The interface Transaction visitor.
+ * This interface is used to implement the visitor pattern for transactions.
  */
 public interface TransactionVisitor {
     /**
      * Visit.
      *
-     * @param transaction the transaction
+     * @param transaction the transaction to visit
      */
     void visit(AccountCreatedTransaction transaction);
 
     /**
      * Visit.
      *
-     * @param transaction the transaction
+     * @param transaction the transaction to visit
      */
     void visit(SentTransaction transaction);
 
     /**
      * Visit.
      *
-     * @param transaction the transaction
+     * @param transaction the transaction to visit
      */
     void visit(CardCreatedTransaction transaction);
 

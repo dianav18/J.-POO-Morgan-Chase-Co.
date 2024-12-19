@@ -17,7 +17,9 @@ import java.util.Map;
 import java.util.Comparator;
 
 /**
- * The type Spending report print command.
+ * It represents the spending report print command,
+ * which is used to print the spending report of an account.
+ * A spending report contains the total amount spent at each commerciant.
  */
 public final class SpendingReportPrintCommand implements CommandHandler {
     private final int startTimestamp;

@@ -6,6 +6,8 @@ import java.util.List;
 
 /**
  * The type Command invoker.
+ * It contains the addCommand and executeCommands methods.
+ * It is used to add a command and execute all the commands.
  */
 public class CommandInvoker {
     private final List<CommandHandler> commands = new ArrayList<>();
@@ -13,7 +15,7 @@ public class CommandInvoker {
     /**
      * Add command.
      *
-     * @param command the command
+     * @param command the command to be added
      */
     public void addCommand(final CommandHandler command) {
         commands.add(command);
@@ -22,7 +24,8 @@ public class CommandInvoker {
     /**
      * Execute commands.
      *
-     * @param output the output
+     * @param output the output array node to
+     *               which the result is added after the command is executed
      */
     public void executeCommands(final ArrayNode output) {
         for (final CommandHandler command : commands) {

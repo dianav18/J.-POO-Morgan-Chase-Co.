@@ -10,7 +10,8 @@ import org.poo.handlers.CommandHandler;
 import java.util.List;
 
 /**
- * The type Print transactions command.
+ * It represents the print transactions command,
+ * which is used to print the transactions of a user.
  */
 public final class PrintTransactionsCommand implements CommandHandler {
     private final String email;
@@ -20,8 +21,8 @@ public final class PrintTransactionsCommand implements CommandHandler {
     /**
      * Instantiates a new Print transactions command.
      *
-     * @param email     the email
-     * @param timestamp the timestamp
+     * @param email     the email of the user
+     * @param timestamp the timestamp at which the transactions are printed
      * @param users     the users
      */
     public PrintTransactionsCommand(final String email, final int timestamp,

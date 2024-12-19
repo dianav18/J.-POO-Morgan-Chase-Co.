@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 
 /**
  * The type Transaction printer.
+ * This class is used to print the details of a transaction to a JSON object.
  */
 public final class TransactionPrinter implements TransactionVisitor {
     private final ArrayNode output;
@@ -12,7 +13,7 @@ public final class TransactionPrinter implements TransactionVisitor {
     /**
      * Instantiates a new Transaction printer.
      *
-     * @param output the output
+     * @param output the output JSON object to which the transaction details will be printed.
      */
     public TransactionPrinter(final ArrayNode output) {
         this.output = output;
@@ -96,7 +97,6 @@ public final class TransactionPrinter implements TransactionVisitor {
         node.put("currency", splitPaymentTransaction.getCurrency());
 
         if (splitPaymentTransaction.isShowError()) {
-           // System.out.println("here");
             node.put("error", "Account "
                     + splitPaymentTransaction.getProblematicAccountIBAN()
                     + " has insufficient funds for a split payment.");

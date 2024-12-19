@@ -1,45 +1,106 @@
-# Project Assignment POO  - J. POO Morgan - Phase One
+---
 
-![](https://s.yimg.com/ny/api/res/1.2/aN0SfZTtLF5hLNO0wIN3gg--/YXBwaWQ9aGlnaGxhbmRlcjt3PTcwNTtoPTQyNztjZj13ZWJw/https://o.aolcdn.com/hss/storage/midas/b23d8b7f62a50a7b79152996890aa052/204855412/fit.gif)
+# Bank Management System
 
-#### Assignment Link: [https://ocw.cs.pub.ro/courses/poo-ca-cd/teme/2024/proiect-e1](https://ocw.cs.pub.ro/courses/poo-ca-cd/teme/2024/proiect-e1)
+## Overview
 
-## Skel Structure
+This project is a simulation of a bank management system that supports a
+variety of operations such as managing accounts, handling transactions, and
+generating reports. The application is developed in Java and showcases
+object-oriented principles, with a focus on extensibility and code
+organization.
 
-* src/
-    * checker/ - checker files
-    * fileio/ - contains classes used to read data from the json files
-    * main/
-        * Main - the Main class runs the checker on your implementation. Add the entry point to your implementation in it. Run Main to test your implementation from the IDE or from command line.
-        * Test - run the main method from Test class with the name of the input file from the command line and the result will be written
-          to the out.txt file. Thus, you can compare this result with ref.
-* input/ - contains the tests in JSON format
-* ref/ - contains all reference output for the tests in JSON format
+---
 
-## Tests
+## Key Features
 
-Tests Basic 1 - 8: Infrastructure \
-Tests Functional 9 - 17: Advanced \
-Tests Flow 18 - 20: Large Input
+1. **Account Management**:
+    - Creation of classic and savings accounts.
+    - Adding funds and setting minimum balances.
+    - Associating and managing cards (including one-time payment cards).
 
-1. test01_create - 2p
-2. test02_delete - 2p
-3. test03_one_time_card - 2p
-4. test04_funds - 2p
-5. test05_money_flow - 2p
-6. test06_non_existing - 2p
-7. test07_send_money_part1 - 3p
-8. test08_send_money_part2 - 3p
-9. test09_print_transactions - 3p
-10. test10_errors - 3p
-11. test11_card_status - 5p
-12. test12_continuous_payments - 5p
-13. test13_savings_account - 5p
-14. test14_split_payments - 5p
-15. test15_every_payment - 5p
-16. test16_report - 5p
-17. test17_spendings_report - 5p
-18. test18_large_input_1 - 7p
-19. test19_large_input_2 - 7p
-20. test19_large_input_3 - 7p
+2. **Transaction Handling**:
+    - Online payments with card management.
+    - Sending and receiving money between accounts.
+    - Recording special transactions like insufficient funds or frozen cards.
 
+3. **Reports**:
+    - Spending reports that summarize user transactions and total spendings.
+    - User and transaction details have a structured format.
+    - Currency conversion for multi-currency transactions.
+    - Card details and transaction history are displayed for reference.
+
+4. **Bank Flow and Interactions**:
+    - Users interact with the system to create accounts and perform operations.
+    - Cards are created, used for payments, or deleted based on user actions.
+    - Transactions include payments, transfers, and warnings.
+    - Spending reports analyze transactions and group data by commerciants.
+    - Currency conversion ensures multi-currency operations.
+
+---
+
+## Design Patterns Used
+
+### Command Pattern
+- The Command Pattern is a method where actions are treated as objects,
+- making it easier to extend the code. (example: `AddFundsCommand`,
+  `PayOnlineCommand`).
+- Enables the execution of commands in a structured way.
+- Provides the flexibility to add new commands with minimal changes to the
+  existing system.
+
+### Factory Pattern
+- Used in `CommandLogicFactory` to instantiate commands dynamically based on
+  user input.
+- Simplifies the creation of complex objects.
+
+### Visitor Pattern
+- Implemented for transactions with the `TransactionVisitor` interface.
+- Enables performing different operations (example: printing) on transactions
+  without altering their structure.
+
+---
+
+## Class Hierarchy
+
+1. **Transactions**:
+    - A base `Transaction` class is extended by specific types (examples:
+      `CardPaymentTransaction`, `SentTransaction`).
+    - It has polymorphic behavior for different transaction types.
+
+2. **Accounts**:
+    - `Account` is the base class, extended by `ClassicAccount` and
+      `SavingsAccount`.
+    - Includes associated cards and a list of transactions.
+
+3. **Handlers**:
+    - Command-related classes like `CommandHandler` and `CommandInvoker`
+      manage user inputs and actions.
+    - `CurrencyConverter` handles multi-currency operations efficiently.
+    - `AccountExtractor` and `TransactionExtractor` extract account and
+      transaction details from the system.
+    - 
+---
+
+## Bank Flow
+
+1. **User Initialization**:
+    - Users are added to the system with personal details and accounts.
+
+2. **Account Operations**:
+    - Users create accounts, deposit funds, and manage minimum balances.
+
+3. **Card Management**:
+    - Cards are created for accounts, supporting online payments.
+    - One-time-use cards are destroyed after a transaction and replaced
+      automatically.
+
+4. **Transaction Handling**:
+    - Transactions are recorded for payments, transfers, or
+      warnings (examples: insufficient funds, frozen cards).
+
+5. **Spending Analysis**:
+    - Spending reports group user transactions by commerciants and analyze totals.
+    - Reports provide a detailed view of user activity over a specific period.
+
+---

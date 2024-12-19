@@ -2,12 +2,14 @@ package org.poo.handlers;
 
 import org.poo.bankInput.ExchangeRate;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
  * The type Currency converter.
+ * It converts an amount from one currency to another.
  */
 public class CurrencyConverter {
     private final Map<String, Double> conversionRates;
@@ -21,27 +23,23 @@ public class CurrencyConverter {
         this.conversionRates = new HashMap<>();
 
         for (final ExchangeRate rate : exchangeRates) {
-            addRate(rate.getFrom(), rate.getTo(), rate.getRate());
-        }
-    }
+            final String key = generateKey(rate.getFrom(), rate.getTo());
+            conversionRates.put(key, rate.getRate());
 
-    private void addRate(final String from, final String to, final double rate) {
-        final String key = generateKey(from, to);
-        conversionRates.put(key, rate);
-
-        final String reverseKey = generateKey(to, from);
-        if (!conversionRates.containsKey(reverseKey)) {
-            conversionRates.put(reverseKey, 1 / rate);
+            final String reverseKey = generateKey(rate.getTo(), rate.getFrom());
+            if (!conversionRates.containsKey(reverseKey)) {
+                conversionRates.put(reverseKey, 1 / rate.getRate());
+            }
         }
     }
 
     /**
-     * Convert double.
+     * Converts an amount from one currency to another.
      *
      * @param amount the amount
-     * @param from   the from
-     * @param to     the to
-     * @return the double
+     * @param from   the source currency
+     * @param to     the target currency
+     * @return the converted amount or -1 if conversion is not possible
      */
     public double convert(final double amount, final String from, final String to) {
         if (from.equals(to)) {
@@ -49,22 +47,18 @@ public class CurrencyConverter {
         }
 
         final String key = generateKey(from, to);
-        final Double directRate = conversionRates.get(key);
-
-        if (directRate != null) {
-            return amount * directRate;
+        if (conversionRates.containsKey(key)) {
+            return amount * conversionRates.get(key);
         }
 
         for (final String intermediate : getAllCurrencies()) {
             final String firstKey = generateKey(from, intermediate);
             final String secondKey = generateKey(intermediate, to);
 
-            final Double firstRate = conversionRates.get(firstKey);
-            final Double secondRate = conversionRates.get(secondKey);
-
-            if (firstRate != null && secondRate != null) {
-                final double indirectRate = firstRate * secondRate;
-                addRate(from, to, indirectRate);
+            if (conversionRates.containsKey(firstKey) && conversionRates.containsKey(secondKey)) {
+                final double indirectRate = conversionRates.get(firstKey)
+                        * conversionRates.get(secondKey);
+                conversionRates.put(key, indirectRate);
                 return amount * indirectRate;
             }
         }
@@ -72,15 +66,34 @@ public class CurrencyConverter {
         return -1;
     }
 
+    /**
+     * Generates a key for the conversion map.
+     *
+     * @param from the source currency
+     * @param to   the target currency
+     * @return the generated key
+     */
     private String generateKey(final String from, final String to) {
         return from + "->" + to;
     }
 
-
+    /**
+     * Gets all distinct currencies from the conversion rates.
+     *
+     * @return the list of currencies
+     */
     private List<String> getAllCurrencies() {
-        return conversionRates.keySet().stream()
-                .flatMap(key -> List.of(key.split("->")).stream())
-                .distinct()
-                .toList();
+        final List<String> currencies = new ArrayList<>();
+
+        for (final String key : conversionRates.keySet()) {
+            final String[] parts = key.split("->");
+            for (final String part : parts) {
+                if (!currencies.contains(part)) {
+                    currencies.add(part);
+                }
+            }
+        }
+
+        return currencies;
     }
 }

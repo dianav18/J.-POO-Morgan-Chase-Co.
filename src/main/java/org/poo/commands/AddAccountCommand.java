@@ -12,25 +12,25 @@ import org.poo.utils.Utils;
 import java.util.List;
 
 /**
- * The type Add account command.
+ * Adds account to a user.
  */
 public final class AddAccountCommand implements CommandHandler {
     private final String email;
     private final String currency;
     private final String accountType;
-    private final double interestRate; // Doar pentru conturi de economii
+    private final double interestRate;
     private final int timestamp;
     private final List<User> users;
 
     /**
      * Instantiates a new Add account command.
      *
-     * @param email        the email
-     * @param currency     the currency
-     * @param accountType  the account type
-     * @param interestRate the interest rate
-     * @param timestamp    the timestamp
-     * @param users        the users
+     * @param email        the email of the user
+     * @param currency     the currency of the account
+     * @param accountType  the account type (classic or savings)
+     * @param interestRate the interest rate (only for savings accounts)
+     * @param timestamp    the timestamp of the transaction
+     * @param users        the users of the bank
      */
     public AddAccountCommand(final String email, final String currency,
                              final String accountType, final double interestRate,
@@ -64,7 +64,5 @@ public final class AddAccountCommand implements CommandHandler {
                 return;
             }
         }
-
     }
-
 }

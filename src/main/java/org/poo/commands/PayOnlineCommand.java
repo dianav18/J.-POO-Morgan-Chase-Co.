@@ -19,7 +19,7 @@ import org.poo.utils.Utils;
 import java.util.List;
 
 /**
- * The type Pay online command.
+ * It represents the pay online command, which is used to pay online with a card.
  */
 public final class PayOnlineCommand implements CommandHandler {
     private final String cardNumber;
@@ -35,13 +35,13 @@ public final class PayOnlineCommand implements CommandHandler {
     /**
      * Instantiates a new Pay online command.
      *
-     * @param cardNumber        the card number
-     * @param amount            the amount
-     * @param currency          the currency
-     * @param timestamp         the timestamp
-     * @param description       the description
-     * @param commerciant       the commerciant
-     * @param email             the email
+     * @param cardNumber        the card number used for the payment
+     * @param amount            the amount to be paid
+     * @param currency          the currency of the payment
+     * @param timestamp         the timestamp at which the payment is made
+     * @param description       the description of the payment
+     * @param commerciant       the commerciant receiving the payment
+     * @param email             the email of the user
      * @param users             the users
      * @param currencyConverter the currency converter
      */
@@ -122,7 +122,7 @@ public final class PayOnlineCommand implements CommandHandler {
                                 }
                                 account.addTransaction(new CardPaymentTransaction(
                                         timestamp, description,
-                                        finalAmount, commerciant, timestamp));
+                                        finalAmount, commerciant));
                                 if (card.isOneTime()) {
                                     account.addTransaction(new CardDestroyedTransaction(timestamp,
                                             "Card destroyed", account.getAccountIBAN(),

@@ -10,7 +10,7 @@ import org.poo.handlers.CommandHandler;
 import java.util.List;
 
 /**
- * The type Print users command.
+ * It represents the print users command, which is used to print the users.
  */
 public final class PrintUsersCommand implements CommandHandler {
     private final List<User> users;
@@ -20,7 +20,7 @@ public final class PrintUsersCommand implements CommandHandler {
      * Instantiates a new Print users command.
      *
      * @param users     the users
-     * @param timestamp the timestamp
+     * @param timestamp the timestamp at which the users are printed
      */
     public PrintUsersCommand(final List<User> users, final int timestamp) {
         this.users = users;

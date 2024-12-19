@@ -12,7 +12,7 @@ import java.util.List;
 import org.poo.bankInput.transactions.CardCreatedTransaction;
 
 /**
- * The type Add cards command.
+ * Adds cards to an account of a user.
  */
 public final class AddCardsCommand implements CommandHandler {
     private final String accountIBAN;
@@ -25,9 +25,9 @@ public final class AddCardsCommand implements CommandHandler {
      * Instantiates a new Add cards command.
      *
      * @param accountIBAN the account iban
-     * @param email       the email
-     * @param isOneTime   the is one time
-     * @param timestamp   the timestamp
+     * @param email       the email of the user
+     * @param isOneTime   if the card is one time
+     * @param timestamp   the timestamp at which the card is created
      * @param users       the users
      */
     public AddCardsCommand(final String accountIBAN, final String email,
@@ -52,7 +52,6 @@ public final class AddCardsCommand implements CommandHandler {
         if (!userFound) {
             return;
         }
-
 
         for (final User user : users) {
             if (user.getEmail().equals(email)) {

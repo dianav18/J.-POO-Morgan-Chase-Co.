@@ -8,6 +8,7 @@ import java.util.List;
 
 /**
  * The type Account extractor.
+ * It extracts accounts from users list.
  */
 public final class AccountExtractor {
     /**
@@ -20,8 +21,8 @@ public final class AccountExtractor {
     /**
      * Extract accounts from users list.
      *
-     * @param users the users
-     * @return the list
+     * @param users the users list
+     * @return the list of accounts
      */
     public static List<Account> extractAccountsFromUsers(final List<User> users) {
         final List<Account> accounts = new ArrayList<>();

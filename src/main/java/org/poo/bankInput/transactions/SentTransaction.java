@@ -3,7 +3,8 @@ package org.poo.bankInput.transactions;
 import lombok.Getter;
 
 /**
- * The type Sent transaction.
+ * Represents a transaction that occurs when an
+ * account sends money to another account.
  */
 @Getter
 public final class SentTransaction extends Transaction {
@@ -15,12 +16,12 @@ public final class SentTransaction extends Transaction {
     /**
      * Instantiates a new Sent transaction.
      *
-     * @param timestamp    the timestamp
-     * @param description  the description
-     * @param senderIBAN   the sender iban
-     * @param receiverIBAN the receiver iban
-     * @param amount       the amount
-     * @param currency     the currency
+     * @param timestamp    the timestamp at which the transaction occurred.
+     * @param description  a description of the transaction.
+     * @param senderIBAN   the IBAN of the account sending the money.
+     * @param receiverIBAN the IBAN of the account receiving the money.
+     * @param amount       the amount of money sent.
+     * @param currency     the currency of the transaction.
      */
     public SentTransaction(final int timestamp, final String description,
                            final String senderIBAN, final String receiverIBAN,
@@ -32,6 +33,11 @@ public final class SentTransaction extends Transaction {
         this.currency = currency;
     }
 
+    /**
+     * Accepts a {@link TransactionVisitor} to process this transaction type.
+     *
+     * @param visitor the visitor object that processes the transaction.
+     */
     @Override
     public void accept(final TransactionVisitor visitor) {
         visitor.visit(this);

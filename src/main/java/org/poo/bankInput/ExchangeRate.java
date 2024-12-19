@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * The type Exchange rate.
+ * Represents an exchange rate between two currencies.
  */
 @Getter
 @Setter
@@ -17,10 +17,10 @@ public class ExchangeRate {
     /**
      * Instantiates a new Exchange rate.
      *
-     * @param from      the from
-     * @param to        the to
-     * @param rate      the rate
-     * @param timestamp the timestamp
+     * @param from      the source currency code (e.g., "USD")
+     * @param to        the target currency code (e.g., "EUR")
+     * @param rate      the exchange rate value (e.g., 0.85 for USD to EUR)
+     * @param timestamp the timestamp representing when this rate was set
      */
     public ExchangeRate(final String from, final String to,
                         final double rate, final int timestamp) {

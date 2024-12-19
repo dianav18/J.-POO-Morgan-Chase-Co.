@@ -4,7 +4,7 @@ import java.util.Random;
 
 public final class Utils {
     private Utils() {
-        // Checkstyle error free constructor
+        throw new UnsupportedOperationException("Utility class");
     }
 
     private static final int IBAN_SEED = 1;

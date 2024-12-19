@@ -19,7 +19,6 @@ public class User {
     private String email;
     private List<Account> accounts;
     private List<Transaction> transactions;
-    //  private List<Commerciant> commerciants;
 
     /**
      * Instantiates a new User.
@@ -34,7 +33,6 @@ public class User {
         this.email = email;
         accounts = new ArrayList<>();
         transactions = new ArrayList<>();
-        //    commerciants = new ArrayList<>();
     }
 
     /**
@@ -58,7 +56,7 @@ public class User {
     /**
      * Add transaction.
      *
-     * @param transaction the transaction
+     * @param transaction the transaction to be added
      */
     public void addTransaction(final Transaction transaction) {
         this.transactions.add(transaction);
@@ -81,9 +79,4 @@ public class User {
         output.sort(Comparator.comparingInt(Transaction::getTimestamp));
         return output;
     }
-
-//    public void addCommerciant(final Commerciant commerciant) {
-//        this.commerciants.add(commerciant);
-//    }
-
 }

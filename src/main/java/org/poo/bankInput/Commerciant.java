@@ -15,7 +15,7 @@ public class Commerciant {
     /**
      * Instantiates a new Commerciant.
      *
-     * @param name the name
+     * @param name the name of the commerciant
      */
     public Commerciant(final String name) {
         this.name = name;

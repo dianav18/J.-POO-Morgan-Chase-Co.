@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The type Report print command.
+ * It represents the report print command, which is used to print the report of an account.
  */
 public final class ReportPrintCommand implements CommandHandler {
     private final int startTimestamp;
@@ -26,10 +26,10 @@ public final class ReportPrintCommand implements CommandHandler {
     /**
      * Instantiates a new Report print command.
      *
-     * @param startTimestamp the start timestamp
-     * @param endTimestamp   the end timestamp
-     * @param accountIBAN    the account iban
-     * @param timestamp      the timestamp
+     * @param startTimestamp the start timestamp of the report
+     * @param endTimestamp   the end timestamp of the report
+     * @param accountIBAN    the account iban for which the report is printed
+     * @param timestamp      the timestamp at which the report is printed
      * @param users          the users
      */
     public ReportPrintCommand(final int startTimestamp, final int endTimestamp,

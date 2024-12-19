@@ -10,7 +10,7 @@ import org.poo.handlers.CommandHandler;
 import java.util.List;
 
 /**
- * The type Add interest command.
+ * Adds interest to a savings account of a user.
  */
 public final class AddInterestCommand implements CommandHandler {
     private final int timestamp;
@@ -22,7 +22,7 @@ public final class AddInterestCommand implements CommandHandler {
     /**
      * Instantiates a new Add interest command.
      *
-     * @param timestamp    the timestamp
+     * @param timestamp    the timestamp at which the interest is added
      * @param accountIBAN  the account iban
      * @param interestRate the interest rate
      * @param users        the users

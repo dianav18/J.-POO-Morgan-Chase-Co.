@@ -11,7 +11,9 @@ import org.poo.handlers.CommandHandler;
 import java.util.List;
 
 /**
- * The type Check card status command.
+ *Checks the status of a card. If the account balance is below the
+ * minimum balance, the card is frozen.
+ * If the card is not found, an error is displayed.
  */
 public final class CheckCardStatusCommand implements CommandHandler {
     private final String cardNumber;
@@ -21,8 +23,8 @@ public final class CheckCardStatusCommand implements CommandHandler {
     /**
      * Instantiates a new Check card status command.
      *
-     * @param cardNumber the card number
-     * @param timestamp  the timestamp
+     * @param cardNumber the card number to be checked
+     * @param timestamp  the timestamp at which the card is checked
      * @param users      the users
      */
     public CheckCardStatusCommand(final String cardNumber, final int timestamp,
@@ -53,7 +55,6 @@ public final class CheckCardStatusCommand implements CommandHandler {
         }
 
         if (!cardFound) {
-            // Card not found error
             final ObjectNode errorOutput = output.addObject();
             errorOutput.put("command", "checkCardStatus");
             errorOutput.put("timestamp", timestamp);

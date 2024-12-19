@@ -51,13 +51,4 @@ public class Card {
     public void freeze() {
         this.status = "frozen";
     }
-
-    /**
-     * Is frozen boolean.
-     *
-     * @return the boolean
-     */
-    public boolean isFrozen() {
-        return this.status.equals("frozen");
-    }
 }

@@ -25,10 +25,12 @@ import java.util.List;
 
 /**
  * The type Command logic factory.
+ * It contains the getCommandLogic method.
+ * It is used to get the command logic based on the command.
  */
 public final class CommandLogicFactory {
     private CommandLogicFactory() {
-        // Prevent instantiation
+        throw new UnsupportedOperationException("Utility class");
     }
 
     /**

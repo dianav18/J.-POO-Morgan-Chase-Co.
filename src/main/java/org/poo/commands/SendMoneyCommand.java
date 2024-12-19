@@ -12,7 +12,7 @@ import org.poo.handlers.CurrencyConverter;
 import java.util.List;
 
 /**
- * The type Send money command.
+ * It represents the send money command, which is used to send money from one account to another.
  */
 public final class SendMoneyCommand implements CommandHandler {
     private final String senderIBAN;
@@ -31,10 +31,10 @@ public final class SendMoneyCommand implements CommandHandler {
      * Instantiates a new Send money command.
      *
      * @param senderIBAN        the sender iban
-     * @param amount            the amount
+     * @param amount            the amount to be sent
      * @param receiverIBAN      the receiver iban
-     * @param timestamp         the timestamp
-     * @param description       the description
+     * @param timestamp         the timestamp at which the money is sent
+     * @param description       the description of the transaction
      * @param accounts          the accounts
      * @param currencyConverter the currency converter
      * @param users             the users

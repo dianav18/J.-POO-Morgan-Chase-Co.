@@ -3,7 +3,8 @@ package org.poo.bankInput.transactions;
 import lombok.Getter;
 
 /**
- * The type Insufficient funds transaction.
+ * Represents a transaction that occurs when an account has insufficient funds
+ * to complete a requested operation.
  */
 @Getter
 public final class InsufficientFundsTransaction extends Transaction {
@@ -13,8 +14,8 @@ public final class InsufficientFundsTransaction extends Transaction {
     /**
      * Instantiates a new Insufficient funds transaction.
      *
-     * @param timestamp   the timestamp
-     * @param description the description
+     * @param timestamp   the timestamp at which the command occurs
+     * @param description the description of the insufficient funds transaction
      */
     public InsufficientFundsTransaction(final int timestamp, final String description) {
         super(timestamp, description);
@@ -22,6 +23,11 @@ public final class InsufficientFundsTransaction extends Transaction {
         this.timestamp = timestamp;
     }
 
+    /**
+     * Accepts a {@link TransactionVisitor} to process this transaction type.
+     *
+     * @param visitor the visitor object that processes the transaction.
+     */
     @Override
     public void accept(final TransactionVisitor visitor) {
         visitor.visit(this);

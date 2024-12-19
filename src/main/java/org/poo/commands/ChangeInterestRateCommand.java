@@ -10,7 +10,7 @@ import org.poo.handlers.CommandHandler;
 import java.util.List;
 
 /**
- * The type Change interest rate command.
+ * Changes the interest rate of an account of a user.
  */
 public final class ChangeInterestRateCommand implements CommandHandler {
     private final String accountIBAN;
