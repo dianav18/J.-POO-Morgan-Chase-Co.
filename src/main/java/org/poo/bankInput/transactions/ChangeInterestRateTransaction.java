@@ -20,7 +20,7 @@ public final class ChangeInterestRateTransaction extends Transaction {
      */
     public ChangeInterestRateTransaction(final int timestamp, final double interestRate,
                                          final String description) {
-        super(timestamp, description);
+        super(timestamp, description, "changeInterestRate");
         this.interestRate = interestRate;
     }
 

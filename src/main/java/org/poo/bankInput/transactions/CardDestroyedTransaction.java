@@ -25,7 +25,7 @@ public final class CardDestroyedTransaction extends Transaction {
      */
     public CardDestroyedTransaction(final int timestamp, final String description,
                                     final String account, final String card, final String email) {
-        super(timestamp, description);
+        super(timestamp, description, "cardDestroyed");
         this.account = account;
         this.card = card;
         this.email = email;

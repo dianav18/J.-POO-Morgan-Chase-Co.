@@ -37,7 +37,7 @@ public final class SplitPaymentTransaction extends Transaction {
                                    final double amount, final double totalAmount,
                                    final boolean showError,
                                    final String problematicAccountIBAN) {
-        super(timestamp, "Split payment");
+        super(timestamp, "Split payment", "splitPayment");
         this.currency = currency;
         this.involvedAccounts = involvedAccounts;
         this.amountPerAccount = amount;

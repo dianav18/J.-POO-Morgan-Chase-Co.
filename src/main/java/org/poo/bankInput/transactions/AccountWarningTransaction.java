@@ -18,7 +18,7 @@ public final class AccountWarningTransaction extends Transaction {
      *                    is close to the minimum threshold.
      */
     public AccountWarningTransaction(final int timestamp, final String description) {
-        super(timestamp, description);
+        super(timestamp, description, "accountWarning");
     }
 
     /**

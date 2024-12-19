@@ -15,7 +15,7 @@ public final class CardFrozenTransaction extends Transaction {
      * @param description a description of the reason for freezing the card.
      */
     public CardFrozenTransaction(final int timestamp, final String description) {
-        super(timestamp, description);
+        super(timestamp, description, "cardFrozen");
     }
 
     /**

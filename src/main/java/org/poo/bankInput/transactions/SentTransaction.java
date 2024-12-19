@@ -26,7 +26,7 @@ public final class SentTransaction extends Transaction {
     public SentTransaction(final int timestamp, final String description,
                            final String senderIBAN, final String receiverIBAN,
                            final double amount, final String currency) {
-        super(timestamp, description);
+        super(timestamp, description, "sent");
         this.senderIBAN = senderIBAN;
         this.receiverIBAN = receiverIBAN;
         this.amount = amount;

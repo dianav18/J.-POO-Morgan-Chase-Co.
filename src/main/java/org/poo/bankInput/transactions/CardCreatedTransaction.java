@@ -35,7 +35,7 @@ public final class CardCreatedTransaction extends Transaction {
      */
     public CardCreatedTransaction(final int timestamp, final String account,
                                   final String card, final String cardHolder) {
-        super(timestamp, "New card created");
+        super(timestamp, "New card created", "cardCreated");
         this.account = account;
         this.card = card;
         this.cardHolder = cardHolder;

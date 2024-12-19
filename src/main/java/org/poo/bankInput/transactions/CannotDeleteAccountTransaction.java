@@ -12,7 +12,7 @@ public final class CannotDeleteAccountTransaction extends Transaction {
      * @param description a detailed description for the operation.
      */
     public CannotDeleteAccountTransaction(final int timestamp, final String description) {
-        super(timestamp, description);
+        super(timestamp, description, "cannotDeleteAccount");
     }
 
     @Override

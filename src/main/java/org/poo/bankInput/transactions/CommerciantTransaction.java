@@ -23,7 +23,7 @@ public final class CommerciantTransaction extends Transaction {
      */
     public CommerciantTransaction(final String commerciant,
                                   final double amount, final int timestamp) {
-        super(timestamp, "Card payment");
+        super(timestamp, "Card payment", "commerciant");
         this.commerciant = commerciant;
         this.amount = amount;
         this.timestamp = timestamp;

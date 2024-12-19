@@ -9,6 +9,7 @@ import lombok.Getter;
 public abstract class Transaction {
     private final int timestamp;
     private final String description;
+    private final String commandName;
 
     /**
      * Instantiates a new Transaction.
@@ -16,9 +17,10 @@ public abstract class Transaction {
      * @param timestamp   the timestamp of the transaction
      * @param description the description of the transaction
      */
-    public Transaction(final int timestamp, final String description) {
+    public Transaction(final int timestamp, final String description, final String commandName) {
         this.timestamp = timestamp;
         this.description = description;
+        this.commandName = commandName;
     }
 
     /**

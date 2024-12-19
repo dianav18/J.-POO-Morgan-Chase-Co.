@@ -25,7 +25,7 @@ public final class ReceivedTransaction extends Transaction {
     public ReceivedTransaction(final int timestamp, final String description,
                                final String senderIBAN, final String receiverIBAN,
                                final double amount, final String currency) {
-        super(timestamp, description);
+        super(timestamp, description, "received");
         this.senderIBAN = senderIBAN;
         this.receiverIBAN = receiverIBAN;
         this.amount = amount;

@@ -13,7 +13,7 @@ public final class AccountCreatedTransaction extends Transaction {
      *                  This value represents the chronological order of the transaction.
      */
     public AccountCreatedTransaction(final int timestamp) {
-        super(timestamp, "New account created");
+        super(timestamp, "New account created", "accountCreated");
     }
 
     /**

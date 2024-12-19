@@ -102,7 +102,7 @@ public final class SpendingReportPrintCommand implements CommandHandler {
         for (final Transaction transaction : transactions) {
             if (transaction.getTimestamp() >= startTimestamp
                     && transaction.getTimestamp() <= endTimestamp) {
-                if (transaction instanceof CardPaymentTransaction) {
+                if (transaction.getCommandName().equals("cardPayment")) {
                     final CardPaymentTransaction cardPaymentTransaction
                             = (CardPaymentTransaction) transaction;
                     final String commerciant = cardPaymentTransaction.getCommerciant();
